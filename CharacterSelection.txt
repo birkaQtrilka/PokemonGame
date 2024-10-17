@@ -1,0 +1,4 @@
+3
+Trainer1,head.png,12,3,2
+Trainer2,head2.png,9,4,2
+Trainer3,head2.png,214,4325,232
