@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+/.vs/PokemonGame/v17
+/.vs/PokemonGame/FileContentIndex
+/PokemonGame/x64/Debug
+/x64/Debug
