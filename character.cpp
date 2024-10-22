@@ -3,10 +3,10 @@
 
 #include <algorithm>
 
-Character::Character(std::string name, std::string spriteFile, int hp, int attack, int defense) :
-    name(name), spriteFile(spriteFile), hp(hp), attack(attack), defense(defense)
+Character::Character(std::string name, int spriteId, int hp, int attack, int defense) :
+    name(name), spriteID(spriteId), hp(hp), attack(attack), defense(defense), exp(0)
 { }
-Character::Character() : name("name"), spriteFile("head.png"), hp(10), attack(1), defense(1)
+Character::Character() : name("name"), spriteID(0), hp(10), attack(1), defense(1), exp(0)
 { }
 Character::~Character() { }
 
@@ -25,7 +25,6 @@ void Character::HealSelf()
 {
     int heal = 1 + rand() & this->defense;
     this->hp += heal;
-    printf("healed with %d hp!\n", heal);
 }
 
 bool Character::takeDamage(int damage) {
@@ -49,22 +48,32 @@ int Character::getHP() const {
     return this->hp;
 }
 
+int Character::getExp() const {
+    return this->exp;
+}
+
 std::string Character::getName() const {
     return this->name;
 }
 
-std::string Character::getSpriteFile() const {
-    return this->spriteFile;
+int Character::getSpriteID() const {
+    return this->spriteID;
 }
-void Character::setSpriteFile(std::string spriteFile) {
-    this->spriteFile = spriteFile;
+
+void Character::setSpriteID(int ID) {
+    this->spriteID = ID;
 }
+
 void Character::setDefense(int defense) {
     this->defense = defense;
 }
 
 void Character::setHP(int hp) {
     this->hp = (hp > 0) ? hp : 0;
+}
+
+void Character::setExp(int exp) {
+    this->exp = (exp > 0) ? exp : 0;
 }
 
 void Character::setName(std::string name) {

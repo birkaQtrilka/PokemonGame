@@ -1,3 +1,5 @@
-2
-Enemy0,enemy1.png,13,5,3
-Enemy1,enemy2.png,12,2,3
+Trainer2,head2.png,9,4,2,0
+3
+Enemy0,enemy1.png,15,5,3,11
+Enemy1,enemy1.png,15,3,1,16
+Enemy2,enemy1.png,15,2,3,13

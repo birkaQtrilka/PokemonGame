@@ -5,13 +5,14 @@
 class Character {
     private:
         std::string name;
-        std::string spriteFile;
+        int spriteID;
         int hp;
         int attack;
         int defense;
+        int exp;
 
     public:
-        Character(std::string name, std::string spriteFile, 
+        Character(std::string name, int spriteId, 
                     int hp, int attack, int defense);
         Character();
         ~Character();
@@ -28,11 +29,14 @@ class Character {
         int getHP() const;
         void setHP(int hp);
 
+        int getExp() const;
+        void setExp(int hp);
+
         std::string getName() const;
         void setName(std::string name);
 
-        std::string getSpriteFile() const;
-        void setSpriteFile(std::string name);
+        int getSpriteID() const;
+        void setSpriteID(int ID);
 
         void HealSelf();
 };

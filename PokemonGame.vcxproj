@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="button.cpp" />
     <ClCompile Include="character.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene.cpp" />
@@ -140,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="button.hpp" />
     <ClInclude Include="character.hpp" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="gameObject.hpp" />
     <ClInclude Include="main.h" />
     <ClInclude Include="scene.hpp" />

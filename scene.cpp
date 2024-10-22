@@ -12,6 +12,14 @@ Scene::~Scene()
 //    myNumbers.erase(std::remove_if(myNumbers.begin(), myNumbers.end(), [&](GameObject* obj) { return *obj == num; }), myNumbers.end());
 //}
 
+void Scene::onEnter(std::function<void()> action) {
+    this->enterAction = action;
+}
+
+void Scene::onExit(std::function<void()> action) {
+    this->exitAction = action;
+}
+
 void Scene::addGameObject(GameObject& object) {
     this->listOfGameObjects.push_back(&object);
 }
