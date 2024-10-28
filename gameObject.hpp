@@ -6,6 +6,7 @@ class GameObject {
     private: 
         const std::string identifier;
         bool _enabled;
+        static unsigned int _id;
     public:
         GameObject(std::string identifier);
         GameObject(const GameObject& other);

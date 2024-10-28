@@ -1,21 +1,31 @@
 #pragma once
 
 #include <string>
+#include "spriteObject.hpp"
+#include "textObject.hpp"
 
-class Character {
+std::vector<std::string> split(const std::string& s, char delim);
+
+class Character : public GameObject{
     private:
+        SpriteObject* sprite;
         std::string name;
-        int spriteID;
         int hp;
         int attack;
         int defense;
         int exp;
 
     public:
-        Character(std::string name, int spriteId, 
-                    int hp, int attack, int defense);
-        Character();
+        //Character(std::string name, std::string spriteId, 
+        //            int hp, int attack, int defense);//make this a spriteObject constructor
+        Character(std::string data);
+
         ~Character();
+
+        void render(sf::RenderWindow& window) override;
+        void update() override;
+        void setPosition(sf::Vector2f position);
+        void setScale(sf::Vector2f scale);
 
         int attackCharacter(const Character& character) const;
         bool takeDamage(int damage);
@@ -35,10 +45,11 @@ class Character {
         std::string getName() const;
         void setName(std::string name);
 
-        int getSpriteID() const;
-        void setSpriteID(int ID);
+        int HealSelf();
 
-        void HealSelf();
+        void UpdateText(std::shared_ptr<TextObject> nameTxt, std::shared_ptr<TextObject> hpTxt, std::shared_ptr<TextObject> attackTxt, std::shared_ptr<TextObject> deffenseTxt) const;
+        std::string getSpriteFile() const;
+
 };
 
 

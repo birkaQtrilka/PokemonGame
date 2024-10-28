@@ -1,5 +1,6 @@
 #pragma once
-#include "gameObject.hpp";
+
+#include "gameObject.hpp"
 
 class TextInput : public GameObject
 {

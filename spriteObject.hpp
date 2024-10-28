@@ -1,14 +1,16 @@
 #pragma once
 
-#include "gameObject.hpp"
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+
+#include "gameObject.hpp"
 
 class SpriteObject : public GameObject {
     private:
         std::string spriteFile;
         sf::Sprite sprite;
         sf::Texture texture;
+protected:
     public:
         SpriteObject(std::string identifier, std::string spriteFile);
         SpriteObject(const SpriteObject& other);

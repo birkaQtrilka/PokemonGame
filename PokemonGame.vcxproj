@@ -127,28 +127,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BattleScreen.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="character.cpp" />
+    <ClCompile Include="CharacterSelectScreen.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneHandler.cpp" />
     <ClCompile Include="spriteObject.cpp" />
+    <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="textObject.cpp" />
+    <ClCompile Include="YouLostScreen.cpp" />
+    <ClCompile Include="YouWinScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BattleScreen.h" />
     <ClInclude Include="button.hpp" />
     <ClInclude Include="character.hpp" />
+    <ClInclude Include="CharacterSelectScreen.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="gameObject.hpp" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="scene.hpp" />
     <ClInclude Include="sceneHandler.hpp" />
     <ClInclude Include="spriteObject.hpp" />
+    <ClInclude Include="StartScreen.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="textObject.hpp" />
+    <ClInclude Include="YouLostScreen.h" />
+    <ClInclude Include="YouWinScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

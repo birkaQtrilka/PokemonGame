@@ -1,9 +1,9 @@
 #pragma once
-
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
-
 #include "gameObject.hpp"
+
+
 
 class TextObject : public GameObject {
     private:

@@ -1,8 +1,9 @@
 #include "gameObject.hpp"
-
 #include "scene.hpp"
 
-GameObject::GameObject(std::string identifier) : identifier(identifier), _enabled(true){ }
+unsigned int GameObject::_id = 0;
+
+GameObject::GameObject(std::string identifier) : identifier(identifier + std::to_string(_id++)), _enabled(true){ }
  
 GameObject::GameObject(const GameObject& other) : identifier(other.getIdentifier()) { }
 

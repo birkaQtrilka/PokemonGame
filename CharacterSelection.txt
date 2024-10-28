@@ -1,5 +1,5 @@
 4
-Trainer1,head.png,12,3,2,0
-Trainer2,head2.png,9,4,2,0
-Trainer3,head2.png,214,4325,232,0
-Trainer4,head.png,1,0,0,0
+Catty,caty.png,12,3,2,0
+Anty,anty.png,9,4,2,0
+Piggy,piggy.png,214,4325,232,0
+Eggy,eggy.png,1,0,0,0
