@@ -5,10 +5,15 @@
 #include <iostream>
 #include <sstream>
 
-SceneHandler::SceneHandler(sf::RenderWindow& window) : enemyImages({ "plant.png", "mushroom.png","amoeba.png", "virus.png" }), scene(nullptr)
+extern std::string folderPrefix;
+
+SceneHandler::SceneHandler(sf::RenderWindow& window) : 
+    enemyImages({ folderPrefix +"plant.png", folderPrefix + "mushroom.png",
+        folderPrefix + "amoeba.png", folderPrefix + "virus.png" }), 
+    scene(nullptr)
 {
     this->window = &window;
-    mainFont.loadFromFile("Lato-Regular.ttf");
+    mainFont.loadFromFile(folderPrefix + "Lato-Regular.ttf");
 ;}
 
 SceneHandler::~SceneHandler() 
@@ -53,7 +58,7 @@ void SceneHandler::GenerateBattleFile(const Character& player) const {
     std::uniform_int_distribution<> r_enemyCount(1, 4);
     std::uniform_int_distribution<> r_enemyExp(10, 20);
 
-    std::ofstream myfileWrite("data.cmgt", std::ios::trunc);
+    std::ofstream myfileWrite(folderPrefix + "data.cmgt", std::ios::trunc);
     int enemyCount = r_enemyCount(gen);
 
     myfileWrite << player.getName() + ',' +

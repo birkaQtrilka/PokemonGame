@@ -6,9 +6,11 @@
 #include "character.hpp"
 #include "sceneHandler.hpp"
 
+extern std::string folderPrefix;
 
 
-CharacterSelectScreen::CharacterSelectScreen(std::string identifier, SceneHandler& manager) : currentCharacterIndex(0), Scene(identifier, manager, sf::Color(7, 79, 87))
+CharacterSelectScreen::CharacterSelectScreen(std::string identifier, SceneHandler& manager) 
+    : currentCharacterIndex(0), Scene(identifier, manager, sf::Color(7, 79, 87))
 {
     SetUpInterface();
     SetUpBehavior();
@@ -80,7 +82,7 @@ void CharacterSelectScreen::SetUpBehavior()
         auto windowSize = manager->window->getSize();;
         sf::Vector2f offset((float)windowSize.x / 2 - 100, 0);
 
-        std::ifstream characterSelectionFileRead("CharacterSelection.txt");
+        std::ifstream characterSelectionFileRead(folderPrefix + "CharacterSelection.txt");
         std::string data;
         std::getline(characterSelectionFileRead, data);
 

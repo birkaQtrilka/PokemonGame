@@ -8,6 +8,7 @@
 #include "gameObject.hpp"
 
 class SceneHandler;
+
 class Scene {
     private:
         const std::string identifier;

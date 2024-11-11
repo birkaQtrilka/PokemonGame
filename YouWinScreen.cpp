@@ -2,6 +2,8 @@
 #include "sceneHandler.hpp"
 #include <fstream>
 
+extern std::string folderPrefix;
+
 YouWinScreen::YouWinScreen(std::string identifier, SceneHandler& manager) : Scene(identifier, manager, sf::Color(7, 79, 87))
 {
     SetUpInterface();
@@ -46,7 +48,7 @@ void YouWinScreen::SetUpBehavior()
 {
 	onEnter([&]() 
 	{
-		std::ifstream battleSaveFileRead("data.cmgt");
+		std::ifstream battleSaveFileRead(folderPrefix + "data.cmgt");
 		std::string line;
 		std::getline(battleSaveFileRead, line);
 
@@ -62,20 +64,20 @@ void YouWinScreen::SetUpBehavior()
 	});
 
 	quitBtn->setButtonAction([&]()
-		{
-			manager->window->close();
-		});
+	{
+		manager->window->close();
+	});
 
 	backBtn->setButtonAction([&]()
-		{
-			manager->changeToScene("BattleScene");
-		});
+    {
+    	manager->changeToScene("BattleScene");
+    });
 
 }
 
 std::vector<ScoreData> YouWinScreen::LoadHighscore() const
 {
-    std::ifstream myfileRead("HighScores.txt");
+    std::ifstream myfileRead(folderPrefix + "HighScores.txt");
     std::string line;
     std::vector<ScoreData> highScores;
 
@@ -108,7 +110,7 @@ void YouWinScreen::SaveHighScore(const ScoreData data, std::vector<ScoreData>& h
 
     BubbleSort(highScores);
     
-    std::ofstream myfileWrite("HighScores.txt", std::ios::trunc);
+    std::ofstream myfileWrite(folderPrefix + "HighScores.txt", std::ios::trunc);
 
     for (size_t i = 0; i < scoreAmount; i++)
     {

@@ -1,11 +1,9 @@
 #pragma once
 
-//#include <fstream>
 #include <sstream>
 #include "character.hpp"
-//#include <algorithm>
-//#include <stdlib.h>  
 
+extern std::string folderPrefix;
 
 Character::Character(std::string data) :
     GameObject("character")
@@ -13,7 +11,9 @@ Character::Character(std::string data) :
 { 
     std::vector<std::string> strings = split(data, ',');//do I need to call strings.clear() at the end?
     name = strings[0];
-    sprite = new SpriteObject(strings[1], strings[1]);
+    std::size_t found = strings[1].find_last_of("/\\");
+    std::string filePath = folderPrefix + strings[1].substr(found + 1);
+    sprite = new SpriteObject(filePath,filePath);
 
     setHP(std::stoi(strings[2]));
     setAttack(std::stoi(strings[3]));
@@ -22,6 +22,8 @@ Character::Character(std::string data) :
 
     strings.clear();
 }
+//find last /
+//trim until
 
 Character::~Character() {
     delete sprite;

@@ -5,6 +5,9 @@
 #include "Console.h"
 #include "sceneHandler.hpp"
 #include "character.hpp"
+extern std::string folderPrefix;
+
+
 
 BattleScreen::BattleScreen(std::string identifier, SceneHandler& manager) : Scene(identifier, manager,sf::Color(7,79,87))
 {
@@ -19,7 +22,7 @@ BattleScreen::~BattleScreen()
 
 void BattleScreen::SetUpInterface()
 {
-    e_name = std::make_shared<TextObject>("characterNameText", manager->mainFont, "nothing");
+    e_name = std::make_shared<TextObject>(folderPrefix + "characterNameText", manager->mainFont, "nothing");
     e_name->setPosition(sf::Vector2f(848.0f, 34.0f));
     e_name->setCharacterSize(26);
     e_name->setFillColor(manager->darkColor);
@@ -75,11 +78,11 @@ void BattleScreen::SetUpInterface()
     doNthnBtn->setPosition(sf::Vector2f(58.0f, 610.0f));
 
     attackSoundBuffer = std::make_shared<sf::SoundBuffer>();
-    attackSoundBuffer->loadFromFile("8-bit-punch-short.wav");
+    attackSoundBuffer->loadFromFile(folderPrefix + "8-bit-punch-short.wav");
     healSoundBuffer = std::make_shared<sf::SoundBuffer>();
-    healSoundBuffer->loadFromFile("powerUp.mp3");
+    healSoundBuffer->loadFromFile(folderPrefix + "powerUp.mp3");
     deathSoundBuffer = std::make_shared<sf::SoundBuffer>();
-    deathSoundBuffer->loadFromFile("deathSound.mp3");
+    deathSoundBuffer->loadFromFile(folderPrefix + "deathSound.mp3");
 
     addGameObject(e_name);
     addGameObject(e_hpText);
@@ -94,58 +97,6 @@ void BattleScreen::SetUpInterface()
     addGameObject(backBtn);
     addGameObject(quitBtn);
     addGameObject(doNthnBtn);
-}
-
-bool BattleScreen::LoadBattleFile()
-{
-    std::ifstream battleSaveFileRead("data.cmgt");
-    std::string line;
-    std::getline(battleSaveFileRead, line);
-
-    if (battleSaveFileRead.fail()) {
-        battleSaveFileRead.close();
-        return false;
-    }
-    //this might lead to memory leak
-
-    std::string playerLine = line;
-
-    std::getline(battleSaveFileRead, line);
-    int enemyCount = std::stoi(line);
-
-    if (enemyCount == 0)
-    {
-        battleSaveFileRead.close();
-        return false;
-    }
-
-    loadedPlayer = std::make_shared<Character>(playerLine);
-    addGameObject(loadedPlayer);
-    loadedPlayer->setPosition(sf::Vector2f(300, 120.0f));
-    loadedPlayer->setScale(sf::Vector2f(6.0f, 6.0f));
-
-    
-
-    for (size_t i = 0; i < enemyCount; i++)
-    {
-        if (battleSaveFileRead.fail())
-        {
-            battleSaveFileRead.close();
-            return false;
-        }
-
-        std::getline(battleSaveFileRead, line);
-
-        std::shared_ptr<Character> currentEnemy = std::make_shared<Character>(line);
-        enemies.push_back(currentEnemy);
-        addGameObject(currentEnemy);
-        currentEnemy->SetActive(false);
-
-        currentEnemy->setPosition(sf::Vector2f(848.0f, 90.0f));
-        currentEnemy->setScale(sf::Vector2f(4.0f, 4.0f));
-    }
-    battleSaveFileRead.close();
-    return true;
 }
 
 void BattleScreen::SetUpBehavior()
@@ -166,6 +117,7 @@ void BattleScreen::SetUpBehavior()
         UpdateTxt(p_expText, "Your Exp: ", loadedPlayer->getExp());
         battleConsole->clearText();
     });
+
     onExit([&]()
     {
         SaveData();
@@ -279,10 +231,60 @@ void BattleScreen::SetUpBehavior()
 
     quitBtn->setButtonAction([&]()
     {
+        SaveData();
         manager->window->close();
     });
 
     
+}
+
+bool BattleScreen::LoadBattleFile()
+{
+    std::ifstream battleSaveFileRead(folderPrefix + "data.cmgt");
+    std::string line;
+    std::getline(battleSaveFileRead, line);
+
+    if (battleSaveFileRead.fail()) {
+        battleSaveFileRead.close();
+        return false;
+    }
+
+    std::string playerLine = line;
+
+    std::getline(battleSaveFileRead, line);
+    int enemyCount = std::stoi(line);
+
+    if (enemyCount == 0)
+    {
+        battleSaveFileRead.close();
+        return false;
+    }
+
+    loadedPlayer = std::make_shared<Character>(playerLine);
+    addGameObject(loadedPlayer);
+    loadedPlayer->setPosition(sf::Vector2f(300, 120.0f));
+    loadedPlayer->setScale(sf::Vector2f(6.0f, 6.0f));
+
+    for (size_t i = 0; i < enemyCount; i++)
+    {
+        if (battleSaveFileRead.fail())
+        {
+            battleSaveFileRead.close();
+            return false;
+        }
+
+        std::getline(battleSaveFileRead, line);
+
+        std::shared_ptr<Character> currentEnemy = std::make_shared<Character>(line);
+        enemies.push_back(currentEnemy);
+        addGameObject(currentEnemy);
+        currentEnemy->SetActive(false);
+
+        currentEnemy->setPosition(sf::Vector2f(848.0f, 90.0f));
+        currentEnemy->setScale(sf::Vector2f(4.0f, 4.0f));
+    }
+    battleSaveFileRead.close();
+    return true;
 }
 
 void BattleScreen::RegisterData()
@@ -311,7 +313,8 @@ void BattleScreen::RegisterData()
 
 void BattleScreen::SaveData() const
 {
-    std::ofstream myfileWrite("data.cmgt", std::ios::trunc);
+    printf("Saving battle");
+    std::ofstream myfileWrite(folderPrefix + "data.cmgt", std::ios::trunc);
     
     myfileWrite << battleData;
 

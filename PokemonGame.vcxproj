@@ -156,6 +156,7 @@
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="textObject.hpp" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="YouLostScreen.h" />
     <ClInclude Include="YouWinScreen.h" />
   </ItemGroup>
