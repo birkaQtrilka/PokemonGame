@@ -25,43 +25,61 @@ CharacterSelectScreen::~CharacterSelectScreen()
 
 void CharacterSelectScreen::SetUpInterface()
 {
+    difficultyTxt.push_back("Guaranteed to win");
+    difficultyTxt.push_back("Easy");
+    difficultyTxt.push_back("Normal");
+    difficultyTxt.push_back("Hard");
+    difficultyTxt.push_back("Guaranteed to lose");
+
     auto windowSize = manager->window->getSize();;
-    sf::Vector2f offset((float)windowSize.x / 2 - 100, 0);
+    sf::Vector2f offset((float)windowSize.x / 2 - 100, 34);
 
+    difficculty = std::make_shared<TextObject>("difficultyTxt", manager->mainFont, "Easy");
+    difficculty->setPosition(sf::Vector2f(offset.x, offset.y));
+    difficculty->setCharacterSize(26);
+    difficculty->setFillColor(manager->black);
+    
     characterName = std::make_shared<TextObject>( "characterNameText", manager->mainFont, "nothing");
-    characterName->setPosition(sf::Vector2f(offset.x, 34.0f));
+    characterName->setPosition(sf::Vector2f(offset.x, offset.y + 34.0f));
     characterName->setCharacterSize(26);
-    characterName->setFillColor(manager->darkColor);
+    characterName->setFillColor(manager->black);
 
-    hpText = std::make_shared<TextObject>( "hpText", manager->mainFont, "HP: -1");
-    hpText->setPosition(sf::Vector2f(offset.x, 238.0f + 40));
+    offset.y = 290;
+    hpText = std::make_shared<TextObject>("hpText", manager->mainFont, "HP: -1");
+    hpText->setPosition(offset);
     hpText->setCharacterSize(26);
-    hpText->setFillColor(manager->darkColor);
+    hpText->setFillColor(manager->black);
 
+    offset.y += 40;
     attackText = std::make_shared<TextObject>("attackText", manager->mainFont, "ATTACK: -1");
-    attackText->setPosition(sf::Vector2f(offset.x, 290.0f + 40));
+    attackText->setPosition(offset);
     attackText->setCharacterSize(26);
-    attackText->setFillColor(manager->darkColor);
+    attackText->setFillColor(manager->black);
 
+    offset.y += 40;
     defenseText = std::make_shared<TextObject>("defenseText", manager->mainFont, "DEFENSE: -1");
-    defenseText->setPosition(sf::Vector2f(offset.x, 345.0f + 40));
+    defenseText->setPosition(offset);
     defenseText->setCharacterSize(26);
-    defenseText->setFillColor(manager->darkColor);
-
+    defenseText->setFillColor(manager->black);
+    
+    offset.y += 40;
     charLeftBtn = std::make_shared<Button>( "CharLeftBtn", manager->mainFont, "<", sf::Vector2f(90.5f, 40.0f), manager->darkColor);
-    charLeftBtn->setPosition(sf::Vector2f(offset.x, 445.0f));
+    charLeftBtn->setPosition(offset);
 
     charRightBtn = std::make_shared<Button>( "CharLeftBtn", manager->mainFont, ">", sf::Vector2f(90.5f, 40.0f), manager->darkColor);
-    charRightBtn->setPosition(sf::Vector2f(offset.x + 95, 445.0f));
+    charRightBtn->setPosition(sf::Vector2f(offset.x + 95, offset.y));
 
+    offset.y += 55;
     playBtn = std::make_shared<Button>("quitButton", manager->mainFont, "Play", sf::Vector2f(192.5f, 50.0f), manager->darkColor);
-    playBtn->setPosition(sf::Vector2f(offset.x, 500.0f ));
+    playBtn->setPosition(offset);
 
+    offset.y += 55;
     quitButton = std::make_shared<Button>("quitButton", manager->mainFont, "QUIT", sf::Vector2f(192.5f, 50.0f), manager->darkColor);
-    quitButton->setPosition(sf::Vector2f(offset.x, 500.0f + 55));
+    quitButton->setPosition(offset);
 
+    offset.y += 55;
     backButton = std::make_shared<Button>("backButton", manager->mainFont, "BACK", sf::Vector2f(192.5f, 50.0f), manager->darkColor);
-    backButton->setPosition(sf::Vector2f(offset.x, 500.0f + 110));
+    backButton->setPosition(offset);
 
 
     addGameObject(characterName);
@@ -73,6 +91,7 @@ void CharacterSelectScreen::SetUpInterface()
     addGameObject(charRightBtn);
     addGameObject(playBtn);
     addGameObject(backButton);
+    addGameObject(difficculty);
 }
 
 void CharacterSelectScreen::SetUpBehavior()
@@ -80,7 +99,7 @@ void CharacterSelectScreen::SetUpBehavior()
     onEnter([&]() 
     {
         auto windowSize = manager->window->getSize();;
-        sf::Vector2f offset((float)windowSize.x / 2 - 100, 0);
+        sf::Vector2f offset((float)windowSize.x / 2 - 100, 124);
 
         std::ifstream characterSelectionFileRead(folderPrefix + "CharacterSelection.txt");
         std::string data;
@@ -99,13 +118,14 @@ void CharacterSelectScreen::SetUpBehavior()
             addGameObject(currentCharacter);
 
             currentCharacter->SetActive(false);
-            currentCharacter->setPosition(sf::Vector2f(offset.x, 90.0f));
-            currentCharacter->setScale(sf::Vector2f(6.0f, 6.0f));
+            currentCharacter->setPosition(offset);
+            currentCharacter->setScale(sf::Vector2f(5.5f, 5.5f));
         }
         characterSelectionFileRead.close();
 
         characters[currentCharacterIndex]->SetActive(true);
         characters[currentCharacterIndex]->UpdateText(characterName, hpText, attackText, defenseText);
+        difficculty->setText(difficultyTxt[currentCharacterIndex]);
     });
     
     onExit([&]() 
@@ -126,6 +146,7 @@ void CharacterSelectScreen::SetUpBehavior()
         characters[previousIndex]->SetActive(false);
         characters[currentCharacterIndex]->SetActive(true);
         characters[currentCharacterIndex]->UpdateText(characterName, hpText, attackText, defenseText);
+        difficculty->setText(difficultyTxt[currentCharacterIndex]);
 
     });
 
@@ -138,6 +159,8 @@ void CharacterSelectScreen::SetUpBehavior()
         characters[previousIndex]->SetActive(false);
         characters[currentCharacterIndex]->SetActive(true);
         characters[currentCharacterIndex]->UpdateText(characterName, hpText, attackText, defenseText);
+        difficculty->setText(difficultyTxt[currentCharacterIndex]);
+    
     });
 
     quitButton->setButtonAction([&]() 

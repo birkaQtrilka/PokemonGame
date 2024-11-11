@@ -1,5 +1,6 @@
-4
-Catty,caty.png,12,3,2,0
-Anty,anty.png,9,4,2,0
+5
 Piggy,piggy.png,214,4325,232,0
+Catty,caty.png,12,4,2,0
+Anty,anty.png,9,4,2,0
+PiggyHardcore,piggy.png,8,3,2,10
 Eggy,eggy.png,1,0,0,0

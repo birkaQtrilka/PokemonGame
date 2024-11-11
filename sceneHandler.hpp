@@ -12,10 +12,11 @@ class SceneHandler {
 public:
     sf::Font mainFont;
     sf::RenderWindow* window;
+    const sf::Color black = sf::Color(0,0,0, 255);
     const sf::Color darkColor = sf::Color(71, 82, 94, 255);
     const sf::Color darkGreyColor = sf::Color(132, 146, 166, 255);
     const sf::Color lightGreyColor = sf::Color(129, 144, 165, 255);
-    const sf::Color programmerColor = sf::Color(200, 0, 0, 255);
+    const sf::Color programmerColor = sf::Color(212, 86, 26, 255);
     //const std::string enemyImages[] {"enemy1.png", "enemy2.png"};
     const std::vector<std::string> enemyImages;
     private:

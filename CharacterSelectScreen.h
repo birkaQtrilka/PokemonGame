@@ -9,6 +9,7 @@ class CharacterSelectScreen :
     public Scene
 {
 private:
+    std::shared_ptr<TextObject> difficculty;
     std::shared_ptr<TextObject> characterName;
     std::shared_ptr<TextObject> hpText;
     std::shared_ptr<TextObject> attackText;
@@ -18,8 +19,10 @@ private:
     std::shared_ptr<Button> quitButton;
     std::shared_ptr<Button> backButton;
     std::shared_ptr<Button> playBtn;
+
     std::vector<std::shared_ptr<Character>> characters;
     int currentCharacterIndex;
+    std::vector<std::string> difficultyTxt;
 
 public:
     CharacterSelectScreen(std::string identifier, SceneHandler& manager);

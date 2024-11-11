@@ -25,32 +25,32 @@ void BattleScreen::SetUpInterface()
     e_name = std::make_shared<TextObject>(folderPrefix + "characterNameText", manager->mainFont, "nothing");
     e_name->setPosition(sf::Vector2f(848.0f, 34.0f));
     e_name->setCharacterSize(26);
-    e_name->setFillColor(manager->darkColor);
+    e_name->setFillColor(manager->black);
 
     e_hpText = std::make_shared<TextObject>("phpText", manager->mainFont, "HP: -1");
     e_hpText->setPosition(sf::Vector2f(848.0f, 238.0f));
     e_hpText->setCharacterSize(26);
-    e_hpText->setFillColor(manager->darkColor);
+    e_hpText->setFillColor(manager->black);
 
     e_atckText = std::make_shared<TextObject>("attackText", manager->mainFont, "ATTACK: -1");
     e_atckText->setPosition(sf::Vector2f(848.0f, 290.0f));
     e_atckText->setCharacterSize(26);
-    e_atckText->setFillColor(manager->darkColor);
+    e_atckText->setFillColor(manager->black);
 
     e_dfnsText = std::make_shared<TextObject>("defenseText", manager->mainFont, "DEFENSE: -1");
     e_dfnsText->setPosition(sf::Vector2f(848.0f, 345.0f));
     e_dfnsText->setCharacterSize(26);
-    e_dfnsText->setFillColor(manager->darkColor);
+    e_dfnsText->setFillColor(manager->black);
 
     p_hpText = std::make_shared<TextObject>("hpText", manager->mainFont, "HP: -1");
     p_hpText->setPosition(sf::Vector2f(300, 300.0f));
     p_hpText->setCharacterSize(26);
-    p_hpText->setFillColor(manager->darkColor);
+    p_hpText->setFillColor(manager->black);
 
     p_expText = std::make_shared<TextObject>("expText", manager->mainFont, "Exp: -1");
     p_expText->setPosition(sf::Vector2f(300, 350.0f));
     p_expText->setCharacterSize(26);
-    p_expText->setFillColor(manager->darkColor);
+    p_expText->setFillColor(manager->black);
 
     battleConsole = std::make_shared<Console>("Console", manager->mainFont, "select action",
         sf::Vector2f(600, 180.0f), manager->darkColor, 4);

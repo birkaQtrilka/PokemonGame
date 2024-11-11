@@ -23,12 +23,12 @@ void YouWinScreen::SetUpInterface()
 	youWonText = std::make_shared<TextObject>("YouWonText", manager->mainFont, "You Won!");
 	youWonText->setPosition(sf::Vector2f(offset.x, 100));
 	youWonText->setCharacterSize(26);
-	youWonText->setFillColor(manager->darkGreyColor);
+	youWonText->setFillColor(manager->black);
 
     highscoreText = std::make_shared<TextObject>("highScoreText", manager->mainFont, "LeaderBoard");
     highscoreText->setPosition(sf::Vector2f(offset.x, 140.0f));
     highscoreText->setCharacterSize(26);
-    highscoreText->setFillColor(manager->darkGreyColor);
+    highscoreText->setFillColor(manager->black);
 
 	quitBtn = std::make_shared<Button>("QuitBtn", manager->mainFont, "Quit",
 		sf::Vector2f(200.5f, 50.0f), manager->darkColor);
