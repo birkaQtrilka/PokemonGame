@@ -16,12 +16,17 @@ private:
     std::shared_ptr<TextObject> defenseText;
     std::shared_ptr<Button> charLeftBtn;
     std::shared_ptr<Button> charRightBtn;
+    
+    std::shared_ptr<Button> diffLeftBtn;
+    std::shared_ptr<Button> diffRightBtn;
+
     std::shared_ptr<Button> quitButton;
     std::shared_ptr<Button> backButton;
     std::shared_ptr<Button> playBtn;
 
     std::vector<std::shared_ptr<Character>> characters;
     int currentCharacterIndex;
+    int currentDifficultyIndex;
     std::vector<std::string> difficultyTxt;
 
 public:

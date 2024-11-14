@@ -29,7 +29,10 @@ private:
     std::shared_ptr<sf::SoundBuffer> attackSoundBuffer;
     std::shared_ptr<sf::SoundBuffer> healSoundBuffer;
     std::shared_ptr<sf::SoundBuffer> deathSoundBuffer;
-    //std::shared_ptr<sf::SoundBuffer> SoundBuffer;
+    int currentEnemyIndex;
+    int difficulty;
+    int currentIteration;
+
     std::string battleData;
     sf::Sound s1;
     sf::Sound s2;
@@ -47,7 +50,9 @@ private:
     void KillEnemy();
     void UpdateTxt(std::shared_ptr<TextObject> healthTxt, const std::string& start, const int val);
     bool LoadBattleFile();
-    
+    Character& GetCurrentEnemy() const;
+    void IterateEnemy();
+    void SetNewWaveOfEnemies();
 
     void EnemyTurn();
 

@@ -5,6 +5,8 @@
 #include "Console.h"
 #include "sceneHandler.hpp"
 #include "character.hpp"
+#include "EnemyRandomValues.h"
+#include "DifficultyManager.h"
 extern std::string folderPrefix;
 
 
@@ -109,9 +111,9 @@ void BattleScreen::SetUpBehavior()
             return;
         }
         RegisterData();
-        //const reference. Do I need a non const reference?
-        enemies.back()->UpdateText(e_name, e_hpText,e_atckText,e_dfnsText);
-        enemies.back()->SetActive(true);
+        
+        GetCurrentEnemy().UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
+        GetCurrentEnemy().SetActive(true);
         
         UpdateTxt(p_hpText, "Your HP: ", loadedPlayer->getHP());
         UpdateTxt(p_expText, "Your Exp: ", loadedPlayer->getExp());
@@ -135,7 +137,7 @@ void BattleScreen::SetUpBehavior()
 
     attackBtn->setButtonAction([&]()
     {
-        Character& enemy = *enemies.back();
+        Character& enemy = GetCurrentEnemy();
     
         int damage = loadedPlayer->attackCharacter(enemy);
         
@@ -153,17 +155,9 @@ void BattleScreen::SetUpBehavior()
 
             KillEnemy();
 
-            bool isLastEnemy = enemies.size() == 0;
-            if (isLastEnemy)
-            {
-                RegisterData();
+            IterateEnemy();
 
-                manager->changeToScene("YouWinScene");
-
-                return;
-            }
-            
-            Character& newEnemy = *enemies.back();
+            Character& newEnemy = GetCurrentEnemy();
             newEnemy.SetActive(true);
             newEnemy.UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
             battleConsole->pushText("You defeated enemy! Exp gained: " + std::to_string(expGained));
@@ -183,13 +177,13 @@ void BattleScreen::SetUpBehavior()
         //check if player dies
         if (loadedPlayer->getHP() != 0) return;
         
-        manager->changeToScene("YouLostScene");
+        manager->changeToScene("YouWinScene");
     
     });
     
     healBtn->setButtonAction([&]() 
     {
-        Character& enemy = *enemies.back();
+        Character& enemy = GetCurrentEnemy();
     
         int heal = loadedPlayer->HealSelf();
         battleConsole->pushText("You healed with " + std::to_string(heal) + " points!");
@@ -253,6 +247,12 @@ bool BattleScreen::LoadBattleFile()
 
     std::getline(battleSaveFileRead, line);
     int enemyCount = std::stoi(line);
+    std::getline(battleSaveFileRead, line);
+    int currentEnemy = std::stoi(line);
+    std::getline(battleSaveFileRead, line);
+    difficulty = std::stoi(line);
+    std::getline(battleSaveFileRead, line);
+    currentIteration = std::stoi(line);
 
     if (enemyCount == 0)
     {
@@ -287,6 +287,39 @@ bool BattleScreen::LoadBattleFile()
     return true;
 }
 
+Character& BattleScreen::GetCurrentEnemy() const
+{
+    return *enemies[currentEnemyIndex];
+}
+
+void BattleScreen::IterateEnemy()
+{
+    currentEnemyIndex++;
+    if (currentEnemyIndex < enemies.size()) return;
+    currentEnemyIndex = 0;
+    SetNewWaveOfEnemies();
+}
+
+void BattleScreen::SetNewWaveOfEnemies()
+{
+    auto clamp = [](int n, int lower, int upper)
+    {
+        return std::max(lower, std::min(n, upper));
+    };
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    currentIteration++;
+    EnemyRandomValues values = DifficultyManager::GetRandomValues(difficulty);
+
+    for (std::shared_ptr<Character> enemy : enemies)
+    {
+        enemy->setHP(values.health(gen) * currentIteration);
+        enemy->setAttack(enemy->getAttack() + clamp(values.attack(gen) / 2, 1, 5));
+        enemy->setDefense(enemy->getDefense() + clamp(values.defense(gen) / 2, 1, 5));
+        enemy->setExp(enemy->getExp() + clamp(values.exp(gen) / 2, 1, 5));
+    }
+}
+
 void BattleScreen::RegisterData()
 {
     Character& player = *loadedPlayer;
@@ -297,7 +330,11 @@ void BattleScreen::RegisterData()
         std::to_string(player.getDefense()) + ',' +
         std::to_string(player.getExp())
         + '\n' +
-        std::to_string(enemies.size()) + '\n';
+        std::to_string(enemies.size())
+        + '\n' +
+        std::to_string(currentEnemyIndex) + '\n' +
+        std::to_string(difficulty) + '\n' +
+        std::to_string(currentIteration) + '\n';
 
     for (std::shared_ptr<Character> enemy : enemies)
     {
@@ -324,8 +361,7 @@ void BattleScreen::SaveData() const
 
 void BattleScreen::KillEnemy()
 {
-    removeGameObject(enemies.back());
-    enemies.pop_back();
+    GetCurrentEnemy().SetActive(false);
 }
 
 void BattleScreen::UpdateTxt(std::shared_ptr<TextObject> healthTxt, const std::string& start, const int val )
@@ -336,7 +372,7 @@ void BattleScreen::UpdateTxt(std::shared_ptr<TextObject> healthTxt, const std::s
 void BattleScreen::EnemyTurn()
 {
     //save progress here
-    Character& enemy = *enemies.back();
+    Character& enemy = GetCurrentEnemy();
     Character& player = *loadedPlayer;
 
     switch ((rand() % 3))

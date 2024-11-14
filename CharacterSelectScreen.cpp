@@ -70,6 +70,13 @@ void CharacterSelectScreen::SetUpInterface()
     charRightBtn->setPosition(sf::Vector2f(offset.x + 95, offset.y));
 
     offset.y += 55;
+    diffLeftBtn = std::make_shared<Button>("DiffLeftBtn", manager->mainFont, "easier", sf::Vector2f(90.5f, 40.0f), manager->darkColor);
+    diffLeftBtn->setPosition(offset);
+
+    diffRightBtn = std::make_shared<Button>("DiffRightBtn", manager->mainFont, "harder", sf::Vector2f(90.5f, 40.0f), manager->darkColor);
+    diffRightBtn->setPosition(sf::Vector2f(offset.x + 95, offset.y));
+
+    offset.y += 55;
     playBtn = std::make_shared<Button>("quitButton", manager->mainFont, "Play", sf::Vector2f(192.5f, 50.0f), manager->darkColor);
     playBtn->setPosition(offset);
 
@@ -87,8 +94,13 @@ void CharacterSelectScreen::SetUpInterface()
     addGameObject(attackText);
     addGameObject(defenseText);
     addGameObject(quitButton);
+
     addGameObject(charLeftBtn);
     addGameObject(charRightBtn);
+    
+    addGameObject(diffLeftBtn);
+    addGameObject(diffRightBtn);
+
     addGameObject(playBtn);
     addGameObject(backButton);
     addGameObject(difficculty);
@@ -125,7 +137,7 @@ void CharacterSelectScreen::SetUpBehavior()
 
         characters[currentCharacterIndex]->SetActive(true);
         characters[currentCharacterIndex]->UpdateText(characterName, hpText, attackText, defenseText);
-        difficculty->setText(difficultyTxt[currentCharacterIndex]);
+        difficculty->setText(difficultyTxt[currentDifficultyIndex]);
     });
     
     onExit([&]() 
@@ -146,7 +158,6 @@ void CharacterSelectScreen::SetUpBehavior()
         characters[previousIndex]->SetActive(false);
         characters[currentCharacterIndex]->SetActive(true);
         characters[currentCharacterIndex]->UpdateText(characterName, hpText, attackText, defenseText);
-        difficculty->setText(difficultyTxt[currentCharacterIndex]);
 
     });
 
@@ -159,8 +170,23 @@ void CharacterSelectScreen::SetUpBehavior()
         characters[previousIndex]->SetActive(false);
         characters[currentCharacterIndex]->SetActive(true);
         characters[currentCharacterIndex]->UpdateText(characterName, hpText, attackText, defenseText);
-        difficculty->setText(difficultyTxt[currentCharacterIndex]);
     
+    });
+
+    diffLeftBtn->setButtonAction([&]() 
+    {
+        if (currentDifficultyIndex != 0)
+            currentDifficultyIndex--;
+        difficculty->setText(difficultyTxt[currentDifficultyIndex]);
+
+    });
+
+    diffRightBtn->setButtonAction([&]() 
+    {
+        if (currentDifficultyIndex != characters.size() - 1)
+            currentDifficultyIndex++;
+        difficculty->setText(difficultyTxt[currentDifficultyIndex]);
+
     });
 
     quitButton->setButtonAction([&]() 
@@ -176,7 +202,7 @@ void CharacterSelectScreen::SetUpBehavior()
 
     playBtn->setButtonAction([&]()
     {
-        manager->GenerateBattleFile(*characters[currentCharacterIndex]);
+        manager->GenerateBattleFile(*characters[currentCharacterIndex], currentDifficultyIndex);
 
         manager->changeToScene("BattleScene");
 

@@ -132,6 +132,8 @@
     <ClCompile Include="character.cpp" />
     <ClCompile Include="CharacterSelectScreen.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="DifficultyManager.cpp" />
+    <ClCompile Include="EnemyRandomValues.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene.cpp" />
@@ -149,6 +151,8 @@
     <ClInclude Include="character.hpp" />
     <ClInclude Include="CharacterSelectScreen.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="DifficultyManager.h" />
+    <ClInclude Include="EnemyRandomValues.h" />
     <ClInclude Include="gameObject.hpp" />
     <ClInclude Include="scene.hpp" />
     <ClInclude Include="sceneHandler.hpp" />

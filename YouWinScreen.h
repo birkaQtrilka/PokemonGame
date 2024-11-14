@@ -22,8 +22,12 @@ class YouWinScreen :
 private:
     std::shared_ptr<TextObject> youWonText;
     std::shared_ptr<TextObject> highscoreText;
+    std::shared_ptr<TextObject> yourScoreText;
     std::shared_ptr<Button> quitBtn;
     std::shared_ptr<Button> backBtn;
+
+    ScoreData lastScore;
+
     const int HighScoreListSize = 5;
 public:
     YouWinScreen(std::string identifier, SceneHandler& manager);

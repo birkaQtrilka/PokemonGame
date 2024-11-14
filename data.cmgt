@@ -1,2 +1,10 @@
-Piggy,./../../piggy.png,214,4325,232,44
+Anty,./anty.png,4,4,2,52
+5
 0
+0
+2
+Enemy0,./mushroom.png,9,4,4,10
+Enemy1,./mushroom.png,4,3,3,8
+Enemy2,./mushroom.png,4,4,3,9
+Enemy3,./amoeba.png,2,4,4,8
+Enemy4,./mushroom.png,2,3,3,9

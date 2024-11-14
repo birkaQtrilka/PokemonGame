@@ -33,5 +33,5 @@ public:
 
         void changeToScene(const std::string& sceneID);
         void addScene(Scene& scene);
-        void GenerateBattleFile(const Character& player) const;
+        void GenerateBattleFile(const Character& player, const int difficulty) const;
 };

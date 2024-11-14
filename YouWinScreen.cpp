@@ -4,7 +4,7 @@
 
 extern std::string folderPrefix;
 
-YouWinScreen::YouWinScreen(std::string identifier, SceneHandler& manager) : Scene(identifier, manager, sf::Color(7, 79, 87))
+YouWinScreen::YouWinScreen(std::string identifier, SceneHandler& manager) : Scene(identifier, manager, sf::Color(7, 79, 87)), lastScore(0,"")
 {
     SetUpInterface();
     SetUpBehavior();
@@ -18,27 +18,37 @@ YouWinScreen::~YouWinScreen()
 void YouWinScreen::SetUpInterface()
 {
     auto windowSize = manager->window->getSize();;
-    sf::Vector2f offset((float)windowSize.x / 2 - 100, 0);
+    sf::Vector2f offset((float)windowSize.x / 2 - 100, 100);
 
 	youWonText = std::make_shared<TextObject>("YouWonText", manager->mainFont, "You Won!");
-	youWonText->setPosition(sf::Vector2f(offset.x, 100));
+	youWonText->setPosition(offset);
 	youWonText->setCharacterSize(26);
 	youWonText->setFillColor(manager->black);
 
+    offset.y += 40;
     highscoreText = std::make_shared<TextObject>("highScoreText", manager->mainFont, "LeaderBoard");
-    highscoreText->setPosition(sf::Vector2f(offset.x, 140.0f));
+    highscoreText->setPosition(offset);
     highscoreText->setCharacterSize(26);
     highscoreText->setFillColor(manager->black);
 
+    offset.y += 200;
+    yourScoreText = std::make_shared<TextObject>("YourScoreText", manager->mainFont, "Your Socre:");
+    yourScoreText->setPosition(offset);
+    yourScoreText->setCharacterSize(26);
+    yourScoreText->setFillColor(manager->black);
+
+    offset.y = 500;
 	quitBtn = std::make_shared<Button>("QuitBtn", manager->mainFont, "Quit",
 		sf::Vector2f(200.5f, 50.0f), manager->darkColor);
-	quitBtn->setPosition(sf::Vector2f(offset.x, 400.0f));
+	quitBtn->setPosition(offset);
 
+    offset.y += 55;
 	backBtn = std::make_shared<Button>("BackBtn", manager->mainFont, "Back",
 		sf::Vector2f(200.5f, 50.0f), manager->darkColor);
-	backBtn->setPosition(sf::Vector2f(offset.x, 455.0f));
+	backBtn->setPosition(offset);
 
 	addGameObject(youWonText);
+	addGameObject(yourScoreText);
 	addGameObject(highscoreText);
 	addGameObject(quitBtn);
 	addGameObject(backBtn);
@@ -56,8 +66,12 @@ void YouWinScreen::SetUpBehavior()
 	    
         Character player(line);
         
+        lastScore = ScoreData(player.getExp(), player.getName());
+        
+        yourScoreText->setText("Your Score: " + lastScore.name + ". " + std::to_string(lastScore.score));
+
         std::vector<ScoreData> highScores = LoadHighscore();
-	    SaveHighScore(ScoreData(player.getExp(),player.getName()), highScores);
+	    SaveHighScore(lastScore, highScores);
         DrawHighScore(*highscoreText, highScores);
         highScores.clear();
 
