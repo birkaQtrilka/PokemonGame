@@ -20,7 +20,7 @@ class YouWinScreen :
     public Scene
 {
 private:
-    std::shared_ptr<TextObject> youWonText;
+    std::shared_ptr<TextObject> gameOverText;
     std::shared_ptr<TextObject> highscoreText;
     std::shared_ptr<TextObject> yourScoreText;
     std::shared_ptr<Button> quitBtn;

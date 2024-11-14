@@ -20,12 +20,12 @@ void YouWinScreen::SetUpInterface()
     auto windowSize = manager->window->getSize();;
     sf::Vector2f offset((float)windowSize.x / 2 - 100, 100);
 
-	youWonText = std::make_shared<TextObject>("YouWonText", manager->mainFont, "You Won!");
-	youWonText->setPosition(offset);
-	youWonText->setCharacterSize(26);
-	youWonText->setFillColor(manager->black);
+	gameOverText = std::make_shared<TextObject>("GameOverTxt", manager->mainFont, "Game Over!");
+	gameOverText->setPosition(offset);
+	gameOverText->setCharacterSize(42);
+	gameOverText->setFillColor(manager->black);
 
-    offset.y += 40;
+    offset.y += 55;
     highscoreText = std::make_shared<TextObject>("highScoreText", manager->mainFont, "LeaderBoard");
     highscoreText->setPosition(offset);
     highscoreText->setCharacterSize(26);
@@ -47,7 +47,7 @@ void YouWinScreen::SetUpInterface()
 		sf::Vector2f(200.5f, 50.0f), manager->darkColor);
 	backBtn->setPosition(offset);
 
-	addGameObject(youWonText);
+	addGameObject(gameOverText);
 	addGameObject(yourScoreText);
 	addGameObject(highscoreText);
 	addGameObject(quitBtn);

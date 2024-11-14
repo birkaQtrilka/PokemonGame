@@ -11,7 +11,6 @@
 #include "Console.h"
 #include "StartScreen.h"
 #include "CharacterSelectScreen.h"
-#include "YouLostScreen.h"
 #include "BattleScreen.h"
 #include "YouWinScreen.h"
 #include "Utils.h"
@@ -49,13 +48,11 @@ int main()
     StartScreen startScreen("StartScene", sceneHandler);
     CharacterSelectScreen characterScreen("CharacterScene", sceneHandler);
     BattleScreen battleScene("BattleScene", sceneHandler);
-    YouLostScreen youLostScene("YouLostScene", sceneHandler);
     YouWinScreen youWinScene("YouWinScene", sceneHandler);
     
     sceneHandler.addScene(startScreen);
     sceneHandler.addScene(characterScreen);
     sceneHandler.addScene(battleScene);
-    sceneHandler.addScene(youLostScene);
     sceneHandler.addScene(youWinScene);
 
     sceneHandler.changeToScene("StartScene");

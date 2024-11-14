@@ -140,9 +140,7 @@
     <ClCompile Include="sceneHandler.cpp" />
     <ClCompile Include="spriteObject.cpp" />
     <ClCompile Include="StartScreen.cpp" />
-    <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="textObject.cpp" />
-    <ClCompile Include="YouLostScreen.cpp" />
     <ClCompile Include="YouWinScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,10 +156,8 @@
     <ClInclude Include="sceneHandler.hpp" />
     <ClInclude Include="spriteObject.hpp" />
     <ClInclude Include="StartScreen.h" />
-    <ClInclude Include="TextInput.h" />
     <ClInclude Include="textObject.hpp" />
     <ClInclude Include="Utils.h" />
-    <ClInclude Include="YouLostScreen.h" />
     <ClInclude Include="YouWinScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
