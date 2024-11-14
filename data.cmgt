@@ -1,10 +1,10 @@
-Anty,./anty.png,4,4,2,52
+Piggy,./../../piggy.png,214,4325,234,78
 5
-0
+2
 0
 2
-Enemy0,./mushroom.png,9,4,4,10
-Enemy1,./mushroom.png,4,3,3,8
-Enemy2,./mushroom.png,4,4,3,9
-Enemy3,./amoeba.png,2,4,4,8
-Enemy4,./mushroom.png,2,3,3,9
+Enemy0,./../../plant.png,0,4,3,10
+Enemy1,./../../amoeba.png,0,3,3,9
+Enemy2,./../../amoeba.png,2,3,3,9
+Enemy3,./../../plant.png,2,3,3,8
+Enemy4,./../../virus.png,2,4,3,11

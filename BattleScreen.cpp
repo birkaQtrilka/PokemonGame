@@ -15,6 +15,7 @@ BattleScreen::BattleScreen(std::string identifier, SceneHandler& manager) : Scen
 {
     SetUpInterface();
     SetUpBehavior();
+    SetUpUpgradeWindow();
 }
 
 BattleScreen::~BattleScreen()
@@ -101,6 +102,92 @@ void BattleScreen::SetUpInterface()
     addGameObject(doNthnBtn);
 }
 
+void BattleScreen::SetUpUpgradeWindow()
+{
+    auto windowSize = manager->window->getSize();;
+    sf::Vector2f offset((float)windowSize.x / 2 - 250,390);
+
+
+    u_atckText = std::make_shared<TextObject>("AtckText", manager->mainFont, "your attack");
+    u_atckText->setPosition(offset);
+    u_atckText->setCharacterSize(26);
+    u_atckText->setFillColor(manager->black);
+
+    u_dfnsText = std::make_shared<TextObject>("dfnsText", manager->mainFont, "your defense");
+    u_dfnsText->setPosition(offset + sf::Vector2f(220, 0));
+    u_dfnsText->setCharacterSize(26);
+    u_dfnsText->setFillColor(manager->black);
+
+    offset.y += 55;
+    u_atckBtn = std::make_shared<Button>("AttackBtn", manager->mainFont, "Upgrade Attack",
+        sf::Vector2f(200.5f, 50.0f), manager->darkColor);
+    u_atckBtn->setPosition(offset);
+
+    u_dfnsBtn = std::make_shared<Button>("DefenseBtn", manager->mainFont, "Upgrade Defense",
+        sf::Vector2f(200.5f, 50.0f), manager->darkColor);
+    u_dfnsBtn->setPosition(offset + sf::Vector2f(220, 0));
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    u_atckBtn->setButtonAction([&]() {
+        EnemyRandomValues values = DifficultyManager::GetRandomValues(difficulty);
+
+        Character& player = *loadedPlayer;
+
+        int addAmount = values.attack(gen);
+        battleConsole->pushText("Added strength:" + std::to_string(addAmount));
+
+        player.setAttack(player.getAttack() + addAmount);
+        RegisterData();
+        CloseUpgradeWindow();
+    });
+
+    u_dfnsBtn->setButtonAction([&]() {
+        EnemyRandomValues values = DifficultyManager::GetRandomValues(difficulty);
+
+        Character& player = *loadedPlayer;
+        
+        int addAmount = values.defense(gen);
+        battleConsole->pushText("Added defense: " + std::to_string(addAmount));
+        player.setDefense(player.getDefense() + addAmount);
+        RegisterData();
+        CloseUpgradeWindow();
+
+        });
+
+    addGameObject(u_atckBtn);
+    addGameObject(u_dfnsBtn);
+    addGameObject(u_atckText);
+    addGameObject(u_dfnsText);
+
+    CloseUpgradeWindow();
+}
+
+void BattleScreen::OpenUpgradeWindow()
+{
+    u_atckText->setText("your attack: " + std::to_string(loadedPlayer->getAttack()));
+    u_dfnsText->setText("your defense: " + std::to_string(loadedPlayer->getDefense()));
+
+    u_atckBtn->SetActive(true);
+    u_atckText->SetActive(true);
+
+    u_dfnsBtn->SetActive(true);
+    u_dfnsText->SetActive(true);
+    allowPress = false;
+}
+
+void BattleScreen::CloseUpgradeWindow()
+{
+    u_atckBtn->SetActive(false);
+    u_atckText->SetActive(false);
+
+    u_dfnsBtn->SetActive( false);
+    u_dfnsText->SetActive(false);
+    allowPress = true;
+
+}
+
 void BattleScreen::SetUpBehavior()
 {
     onEnter([&]()
@@ -118,6 +205,7 @@ void BattleScreen::SetUpBehavior()
         UpdateTxt(p_hpText, "Your HP: ", loadedPlayer->getHP());
         UpdateTxt(p_expText, "Your Exp: ", loadedPlayer->getExp());
         battleConsole->clearText();
+
     });
 
     onExit([&]()
@@ -137,6 +225,7 @@ void BattleScreen::SetUpBehavior()
 
     attackBtn->setButtonAction([&]()
     {
+            if (!allowPress) return;
         Character& enemy = GetCurrentEnemy();
     
         int damage = loadedPlayer->attackCharacter(enemy);
@@ -154,7 +243,7 @@ void BattleScreen::SetUpBehavior()
             UpdateTxt(p_expText, "Your Exp: ", loadedPlayer->getExp());
 
             KillEnemy();
-
+            int prevIteration = currentIteration;
             IterateEnemy();
 
             Character& newEnemy = GetCurrentEnemy();
@@ -163,6 +252,11 @@ void BattleScreen::SetUpBehavior()
             battleConsole->pushText("You defeated enemy! Exp gained: " + std::to_string(expGained));
 
             RegisterData();
+
+            if (currentIteration != prevIteration)
+            {
+                OpenUpgradeWindow();
+            }
             return;
         }
         sound.setBuffer(*attackSoundBuffer);
@@ -183,6 +277,7 @@ void BattleScreen::SetUpBehavior()
     
     healBtn->setButtonAction([&]() 
     {
+            if (!allowPress) return;
         Character& enemy = GetCurrentEnemy();
     
         int heal = loadedPlayer->HealSelf();
@@ -208,6 +303,8 @@ void BattleScreen::SetUpBehavior()
     
     doNthnBtn->setButtonAction([&]()
     {
+            if (!allowPress) return;
+
         battleConsole->pushText("You did nothing..");
 
         RegisterData();
@@ -220,11 +317,15 @@ void BattleScreen::SetUpBehavior()
     
     backBtn->setButtonAction([&]()
     {
+            if (!allowPress) return;
+
         manager->changeToScene("StartScene");
     });
 
     quitBtn->setButtonAction([&]()
     {
+            if (!allowPress) return;
+
         SaveData();
         manager->window->close();
     });

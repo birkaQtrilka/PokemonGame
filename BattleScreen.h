@@ -19,6 +19,14 @@ private:
     std::shared_ptr<TextObject> p_expText;
     std::shared_ptr<TextObject> e_atckText;
     std::shared_ptr<TextObject> e_dfnsText;
+    std::shared_ptr<TextObject> u_atckText;
+    std::shared_ptr<TextObject> u_dfnsText;
+
+
+
+    std::shared_ptr<Button> u_atckBtn;
+    std::shared_ptr<Button> u_dfnsBtn;
+
     std::shared_ptr<Button> backBtn;
     std::shared_ptr<Button> attackBtn;
     std::shared_ptr<Button> healBtn;
@@ -32,6 +40,7 @@ private:
     int currentEnemyIndex;
     int difficulty;
     int currentIteration;
+    bool allowPress = true;
 
     std::string battleData;
     sf::Sound s1;
@@ -44,6 +53,10 @@ public:
 
 private:
     void SetUpInterface();
+    void SetUpUpgradeWindow();
+    void OpenUpgradeWindow();
+    void CloseUpgradeWindow();
+
     void SetUpBehavior();
     void RegisterData();
     void SaveData() const;

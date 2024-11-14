@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-//#define FOLDER_PATH
+#define FOLDER_PATH
 
 #ifdef FOLDER_PATH
 std::string folderPrefix = "./../../";
