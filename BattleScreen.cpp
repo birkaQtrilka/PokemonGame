@@ -7,9 +7,11 @@
 #include "character.hpp"
 #include "EnemyRandomValues.h"
 #include "DifficultyManager.h"
+#include "SceneAssets.h"
+#include <sstream>
+#include "UIHelper.h"
+
 extern std::string folderPrefix;
-
-
 
 BattleScreen::BattleScreen(std::string identifier, SceneHandler& manager) : Scene(identifier, manager,sf::Color(7,79,87))
 {
@@ -23,67 +25,42 @@ BattleScreen::~BattleScreen()
 
 }
 
+void BattleScreen::InitBattleFile(std::shared_ptr<Character> player, int difficulty)
+{
+    serializer.NewBattleFile(*player, difficulty);
+}
+
 void BattleScreen::SetUpInterface()
 {
-    e_name = std::make_shared<TextObject>(folderPrefix + "characterNameText", manager->mainFont, "nothing");
-    e_name->setPosition(sf::Vector2f(848.0f, 34.0f));
-    e_name->setCharacterSize(26);
-    e_name->setFillColor(manager->black);
+    SceneAssets* assets = SceneAssets::GetInstance();
+    const sf::Vector2f btnSize(192.5f, 50.0f);
+    sf::String e_name_id = folderPrefix + "characterNameText";
+    int txtSize = assets->h2FontSize;
+    e_name = UIHelper::CreateText(e_name_id, assets->mainFont,          "nothing", sf::Vector2f(848.0f, 34.0f), txtSize, assets->black);
+    e_hpText = UIHelper::CreateText("phpText", assets->mainFont,        "HP: -1", sf::Vector2f(848.0f, 238.0f), txtSize, assets->black);
+    e_atckText = UIHelper::CreateText("attackText", assets->mainFont,   "ATTACK: -1", sf::Vector2f(848.0f, 290.0f), txtSize, assets->black);
+    e_dfnsText = UIHelper::CreateText("defenseText", assets->mainFont,  "DEFENSE: -1", sf::Vector2f(848.0f, 345.0f), txtSize, assets->black);
 
-    e_hpText = std::make_shared<TextObject>("phpText", manager->mainFont, "HP: -1");
-    e_hpText->setPosition(sf::Vector2f(848.0f, 238.0f));
-    e_hpText->setCharacterSize(26);
-    e_hpText->setFillColor(manager->black);
+    p_hpText = UIHelper::CreateText("hpText", assets->mainFont,         "HP: -1", sf::Vector2f(300, 300.0f), txtSize, assets->black);
+    p_expText = UIHelper::CreateText("expText", assets->mainFont,       "Exp: -1", sf::Vector2f(300, 350.0f), txtSize, assets->black);
 
-    e_atckText = std::make_shared<TextObject>("attackText", manager->mainFont, "ATTACK: -1");
-    e_atckText->setPosition(sf::Vector2f(848.0f, 290.0f));
-    e_atckText->setCharacterSize(26);
-    e_atckText->setFillColor(manager->black);
-
-    e_dfnsText = std::make_shared<TextObject>("defenseText", manager->mainFont, "DEFENSE: -1");
-    e_dfnsText->setPosition(sf::Vector2f(848.0f, 345.0f));
-    e_dfnsText->setCharacterSize(26);
-    e_dfnsText->setFillColor(manager->black);
-
-    p_hpText = std::make_shared<TextObject>("hpText", manager->mainFont, "HP: -1");
-    p_hpText->setPosition(sf::Vector2f(300, 300.0f));
-    p_hpText->setCharacterSize(26);
-    p_hpText->setFillColor(manager->black);
-
-    p_expText = std::make_shared<TextObject>("expText", manager->mainFont, "Exp: -1");
-    p_expText->setPosition(sf::Vector2f(300, 350.0f));
-    p_expText->setCharacterSize(26);
-    p_expText->setFillColor(manager->black);
-
-    battleConsole = std::make_shared<Console>("Console", manager->mainFont, "select action",
-        sf::Vector2f(600, 180.0f), manager->darkColor, 4);
+    battleConsole = std::make_shared<Console>("Console", assets->mainFont, "select action",
+        sf::Vector2f(600, 180.0f), assets->darkColor, 4);
     battleConsole->setPosition(sf::Vector2f(408.0f, 500.0f));
     battleConsole->setCharacterSize(20);
 
-    backBtn = std::make_shared<Button>("BackBtn", manager->mainFont, "Back",
-        sf::Vector2f(192.5f, 50.0f), manager->darkColor);
-    backBtn->setPosition(sf::Vector2f(0, 0));
-
-    quitBtn = std::make_shared<Button>("QuitBtn", manager->mainFont, "Quit",
-        sf::Vector2f(192.5f, 50.0f), manager->darkColor);
-    quitBtn->setPosition(sf::Vector2f(0, 55.0f));
-
-    attackBtn = std::make_shared<Button>("AttackBtn", manager->mainFont, "Attack",
-        sf::Vector2f(192.5f, 50.0f), manager->darkColor);
-    attackBtn->setPosition(sf::Vector2f(58.0f, 500.0f));
-             
-    healBtn = std::make_shared<Button>("HealBtn", manager->mainFont, "Heal",
-        sf::Vector2f(192.5f, 50.0f), manager->darkColor);
-    healBtn->setPosition(sf::Vector2f(58.0f, 555.0f));
-
-    doNthnBtn = std::make_shared<Button>("DoNthnBtn", manager->mainFont, "Do Nothing",
-        sf::Vector2f(192.5f, 50.0f), manager->darkColor);
-    doNthnBtn->setPosition(sf::Vector2f(58.0f, 610.0f));
+    backBtn = UIHelper::CreateButton("BackBtn", assets->mainFont,       "Back", btnSize, assets->darkColor, sf::Vector2f(0, 0));
+    quitBtn = UIHelper::CreateButton("QuitBtn", assets->mainFont,       "Quit", btnSize, assets->darkColor, sf::Vector2f(0, 55.0f));
+    attackBtn = UIHelper::CreateButton("AttackBtn", assets->mainFont,   "Attack", btnSize, assets->darkColor, sf::Vector2f(58.0f, 500.0f));
+    healBtn = UIHelper::CreateButton("HealBtn", assets->mainFont,       "Heal", btnSize, assets->darkColor, sf::Vector2f(58.0f, 555.0f));
+    doNthnBtn = UIHelper::CreateButton("DoNthnBtn", assets->mainFont,   "Do Nothing", btnSize, assets->darkColor, sf::Vector2f(58.0f, 610.0f));
 
     attackSoundBuffer = std::make_shared<sf::SoundBuffer>();
     attackSoundBuffer->loadFromFile(folderPrefix + "8-bit-punch-short.wav");
+
     healSoundBuffer = std::make_shared<sf::SoundBuffer>();
     healSoundBuffer->loadFromFile(folderPrefix + "powerUp.mp3");
+
     deathSoundBuffer = std::make_shared<sf::SoundBuffer>();
     deathSoundBuffer->loadFromFile(folderPrefix + "deathSound.mp3");
 
@@ -104,56 +81,43 @@ void BattleScreen::SetUpInterface()
 
 void BattleScreen::SetUpUpgradeWindow()
 {
-    auto windowSize = manager->window->getSize();;
-    sf::Vector2f offset((float)windowSize.x / 2 - 250,390);
+    auto windowSize = manager->window->getSize();
+    sf::Vector2f offset((float)windowSize.x / 2 - 250, 390);
+    SceneAssets* assets = SceneAssets::GetInstance();
+    const sf::Vector2f btnSize(200.5f, 50.0f);
 
-
-    u_atckText = std::make_shared<TextObject>("AtckText", manager->mainFont, "your attack");
-    u_atckText->setPosition(offset);
-    u_atckText->setCharacterSize(26);
-    u_atckText->setFillColor(manager->black);
-
-    u_dfnsText = std::make_shared<TextObject>("dfnsText", manager->mainFont, "your defense");
-    u_dfnsText->setPosition(offset + sf::Vector2f(220, 0));
-    u_dfnsText->setCharacterSize(26);
-    u_dfnsText->setFillColor(manager->black);
+    u_atckText = UIHelper::CreateText("AtckText", assets->mainFont, "your attack", offset, assets->h2FontSize, assets->black);
+    u_dfnsText = UIHelper::CreateText("dfnsText", assets->mainFont, "your defense", offset + sf::Vector2f(220, 0), assets->h2FontSize, assets->black);
 
     offset.y += 55;
-    u_atckBtn = std::make_shared<Button>("AttackBtn", manager->mainFont, "Upgrade Attack",
-        sf::Vector2f(200.5f, 50.0f), manager->darkColor);
-    u_atckBtn->setPosition(offset);
-
-    u_dfnsBtn = std::make_shared<Button>("DefenseBtn", manager->mainFont, "Upgrade Defense",
-        sf::Vector2f(200.5f, 50.0f), manager->darkColor);
-    u_dfnsBtn->setPosition(offset + sf::Vector2f(220, 0));
+    u_atckBtn = UIHelper::CreateButton("AttackBtn", assets->mainFont, "Upgrade Attack", btnSize, assets->darkColor, offset);
+    u_dfnsBtn = UIHelper::CreateButton("DefenseBtn", assets->mainFont, "Upgrade Defense", btnSize, assets->darkColor, offset + sf::Vector2f(220, 0));
 
     std::random_device rd;
     std::mt19937 gen(rd());
 
     u_atckBtn->setButtonAction([&]() {
-        EnemyRandomValues values = DifficultyManager::GetRandomValues(difficulty);
-
-        Character& player = *loadedPlayer;
+        EnemyRandomValues values = DifficultyManager::GetRandomValues(state.difficulty);
+        Character& player = *state.loadedPlayer;
 
         int addAmount = values.attack(gen);
-        battleConsole->pushText("Added strength:" + std::to_string(addAmount));
+        battleConsole->pushText("Added strength: " + std::to_string(addAmount));
 
         player.setAttack(player.getAttack() + addAmount);
-        RegisterData();
+        serializer.RegisterData(state);
         CloseUpgradeWindow();
-    });
+        });
 
     u_dfnsBtn->setButtonAction([&]() {
-        EnemyRandomValues values = DifficultyManager::GetRandomValues(difficulty);
+        EnemyRandomValues values = DifficultyManager::GetRandomValues(state.difficulty);
+        Character& player = *state.loadedPlayer;
 
-        Character& player = *loadedPlayer;
-        
         int addAmount = values.defense(gen);
         battleConsole->pushText("Added defense: " + std::to_string(addAmount));
-        player.setDefense(player.getDefense() + addAmount);
-        RegisterData();
-        CloseUpgradeWindow();
 
+        player.setDefense(player.getDefense() + addAmount);
+        serializer.RegisterData(state);
+        CloseUpgradeWindow();
         });
 
     addGameObject(u_atckBtn);
@@ -166,8 +130,8 @@ void BattleScreen::SetUpUpgradeWindow()
 
 void BattleScreen::OpenUpgradeWindow()
 {
-    u_atckText->setText("your attack: " + std::to_string(loadedPlayer->getAttack()));
-    u_dfnsText->setText("your defense: " + std::to_string(loadedPlayer->getDefense()));
+    u_atckText->setText("your attack: " + std::to_string(state.loadedPlayer->getAttack()));
+    u_dfnsText->setText("your defense: " + std::to_string(state.loadedPlayer->getDefense()));
 
     u_atckBtn->SetActive(true);
     u_atckText->SetActive(true);
@@ -192,212 +156,94 @@ void BattleScreen::SetUpBehavior()
 {
     onEnter([&]()
     {
-        if (!LoadBattleFile())
+        bool success;
+        std::tie(success, state) = serializer.LoadBattleFile();
+        if (!success)
         {
             manager->changeToScene("StartScene");
             return;
         }
-        RegisterData();
+        serializer.RegisterData(state);
         
+        addGameObject(state.loadedPlayer);
+        state.loadedPlayer->setPosition(sf::Vector2f(300, 120.0f));
+        state.loadedPlayer->setScale(sf::Vector2f(6.0f, 6.0f));
+
+        for (std::shared_ptr<Character> enemy : state.enemies)
+        {
+            addGameObject(enemy);
+            enemy->SetActive(false);
+            enemy->setPosition(sf::Vector2f(848.0f, 90.0f));
+            enemy->setScale(sf::Vector2f(4.0f, 4.0f));
+        }
+
         GetCurrentEnemy().UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
         GetCurrentEnemy().SetActive(true);
         
-        UpdateTxt(p_hpText, "Your HP: ", loadedPlayer->getHP());
-        UpdateTxt(p_expText, "Your Exp: ", loadedPlayer->getExp());
+        UpdateTxt(p_hpText, "Your HP: ", state.loadedPlayer->getHP());
+        UpdateTxt(p_expText, "Your Exp: ", state.loadedPlayer->getExp());
         battleConsole->clearText();
 
     });
 
     onExit([&]()
     {
-        SaveData();
-        if(loadedPlayer)
-            removeGameObject(loadedPlayer);
+        serializer.SaveData();
+        if(state.loadedPlayer) removeGameObject(state.loadedPlayer);
 
-        for (std::shared_ptr<Character> enemy : enemies)
+        for (std::shared_ptr<Character> enemy : state.enemies)
         {
-            if (enemy)
-                removeGameObject(enemy);
+            if (enemy) removeGameObject(enemy);
         }
-        enemies.clear();
+        state.enemies.clear();
     });
-
 
     attackBtn->setButtonAction([&]()
     {
-            if (!allowPress) return;
-        Character& enemy = GetCurrentEnemy();
-    
-        int damage = loadedPlayer->attackCharacter(enemy);
-        
-        battleConsole->pushText("You attacked with " + std::to_string(damage) + " damage!");
-        sf::Sound& sound = s1;
-        sound.setVolume(20);
-        bool isKilled = enemy.takeDamage(damage);
-        if (isKilled)
-        {
-            sound.setBuffer(*deathSoundBuffer);
-            sound.play();
-            int expGained = enemy.getExp();
-            loadedPlayer->setExp(loadedPlayer->getExp() + expGained);
-            UpdateTxt(p_expText, "Your Exp: ", loadedPlayer->getExp());
-
-            KillEnemy();
-            int prevIteration = currentIteration;
-            IterateEnemy();
-
-            Character& newEnemy = GetCurrentEnemy();
-            newEnemy.SetActive(true);
-            newEnemy.UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
-            battleConsole->pushText("You defeated enemy! Exp gained: " + std::to_string(expGained));
-
-            RegisterData();
-
-            if (currentIteration != prevIteration)
-            {
-                OpenUpgradeWindow();
-            }
-            return;
-        }
-        sound.setBuffer(*attackSoundBuffer);
-        sound.play();
-        
-        RegisterData();
-        EnemyTurn();
-
-        enemy.UpdateText(e_name,e_hpText,e_atckText,e_dfnsText);
-        UpdateTxt(p_hpText, "Your HP:", loadedPlayer->getHP());
-
-        //check if player dies
-        if (loadedPlayer->getHP() != 0) return;
-        
-        manager->changeToScene("YouWinScene");
+        if (!allowPress) return;
+        OnAttackPress();
     
     });
     
-    healBtn->setButtonAction([&]() 
+    healBtn->setButtonAction([&]
     {
-            if (!allowPress) return;
-        Character& enemy = GetCurrentEnemy();
-    
-        int heal = loadedPlayer->HealSelf();
-        battleConsole->pushText("You healed with " + std::to_string(heal) + " points!");
-        
-        sf::Sound& sound = s2;
-        sound.setBuffer(*healSoundBuffer);
-        sound.setVolume(30);
-        sound.play();
-        
-        RegisterData();
-        EnemyTurn();
-        
-        enemy.UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
-        
-        UpdateTxt(p_hpText, "Your HP:", loadedPlayer->getHP());
-
-        //check if player dies
-        if (loadedPlayer->getHP() != 0) return;
-    
-        manager->changeToScene("YouLostScene");
+        if (!allowPress) return;
+        OnHealPress();
     });
     
     doNthnBtn->setButtonAction([&]()
     {
-            if (!allowPress) return;
-
-        battleConsole->pushText("You did nothing..");
-
-        RegisterData();
-        EnemyTurn();
-
-        enemies.back()->UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
-
-        UpdateTxt(p_hpText, "Your HP:", loadedPlayer->getHP());
+        if (!allowPress) return;
+        OnDoNothingPress();
     });
     
     backBtn->setButtonAction([&]()
     {
-            if (!allowPress) return;
+        if (!allowPress) return;
 
         manager->changeToScene("StartScene");
     });
 
     quitBtn->setButtonAction([&]()
     {
-            if (!allowPress) return;
+        if (!allowPress) return;
 
-        SaveData();
-        manager->window->close();
+        manager->ShutDown();
     });
 
     
 }
 
-bool BattleScreen::LoadBattleFile()
-{
-    std::ifstream battleSaveFileRead(folderPrefix + "data.cmgt");
-    std::string line;
-    std::getline(battleSaveFileRead, line);
-
-    if (battleSaveFileRead.fail()) {
-        battleSaveFileRead.close();
-        return false;
-    }
-
-    std::string playerLine = line;
-
-    std::getline(battleSaveFileRead, line);
-    int enemyCount = std::stoi(line);
-    std::getline(battleSaveFileRead, line);
-    int currentEnemy = std::stoi(line);
-    std::getline(battleSaveFileRead, line);
-    difficulty = std::stoi(line);
-    std::getline(battleSaveFileRead, line);
-    currentIteration = std::stoi(line);
-
-    if (enemyCount == 0)
-    {
-        battleSaveFileRead.close();
-        return false;
-    }
-
-    loadedPlayer = std::make_shared<Character>(playerLine);
-    addGameObject(loadedPlayer);
-    loadedPlayer->setPosition(sf::Vector2f(300, 120.0f));
-    loadedPlayer->setScale(sf::Vector2f(6.0f, 6.0f));
-
-    for (size_t i = 0; i < enemyCount; i++)
-    {
-        if (battleSaveFileRead.fail())
-        {
-            battleSaveFileRead.close();
-            return false;
-        }
-
-        std::getline(battleSaveFileRead, line);
-
-        std::shared_ptr<Character> currentEnemy = std::make_shared<Character>(line);
-        enemies.push_back(currentEnemy);
-        addGameObject(currentEnemy);
-        currentEnemy->SetActive(false);
-
-        currentEnemy->setPosition(sf::Vector2f(848.0f, 90.0f));
-        currentEnemy->setScale(sf::Vector2f(4.0f, 4.0f));
-    }
-    battleSaveFileRead.close();
-    return true;
-}
-
 Character& BattleScreen::GetCurrentEnemy() const
 {
-    return *enemies[currentEnemyIndex];
+    return *state.enemies[state.currentEnemyIndex];
 }
 
 void BattleScreen::IterateEnemy()
 {
-    currentEnemyIndex++;
-    if (currentEnemyIndex < enemies.size()) return;
-    currentEnemyIndex = 0;
+    state.currentEnemyIndex++;
+    if (state.currentEnemyIndex < state.enemies.size()) return;
+    state.currentEnemyIndex = 0;
     SetNewWaveOfEnemies();
 }
 
@@ -409,56 +255,17 @@ void BattleScreen::SetNewWaveOfEnemies()
     };
     std::random_device rd;
     std::mt19937 gen(rd());
-    currentIteration++;
-    EnemyRandomValues values = DifficultyManager::GetRandomValues(difficulty);
+    state.currentIteration++;
+    EnemyRandomValues values = DifficultyManager::GetRandomValues(state.difficulty);
 
-    for (std::shared_ptr<Character> enemy : enemies)
+    for (std::shared_ptr<Character> enemy : state.enemies)
     {
-        enemy->setHP(values.health(gen) * currentIteration);
+        enemy->setHP(values.health(gen) * state.currentIteration);
         enemy->setAttack(enemy->getAttack() + clamp(values.attack(gen) / 2, 1, 5));
         enemy->setDefense(enemy->getDefense() + clamp(values.defense(gen) / 2, 1, 5));
         enemy->setExp(enemy->getExp() + clamp(values.exp(gen) / 2, 1, 5));
     }
 }
-
-void BattleScreen::RegisterData()
-{
-    Character& player = *loadedPlayer;
-    battleData = player.getName() + ',' +
-        player.getSpriteFile() + ',' +
-        std::to_string(player.getHP()) + ',' +
-        std::to_string(player.getAttack()) + ',' +
-        std::to_string(player.getDefense()) + ',' +
-        std::to_string(player.getExp())
-        + '\n' +
-        std::to_string(enemies.size())
-        + '\n' +
-        std::to_string(currentEnemyIndex) + '\n' +
-        std::to_string(difficulty) + '\n' +
-        std::to_string(currentIteration) + '\n';
-
-    for (std::shared_ptr<Character> enemy : enemies)
-    {
-        battleData += enemy->getName() + ',' +
-            enemy->getSpriteFile() + ',' +
-            std::to_string(enemy->getHP()) + ',' +
-            std::to_string(enemy->getAttack()) + ',' +
-            std::to_string(enemy->getDefense()) + ',' +
-            std::to_string(enemy->getExp())
-            + '\n';
-    }
-}
-
-void BattleScreen::SaveData() const
-{
-    printf("Saving battle");
-    std::ofstream myfileWrite(folderPrefix + "data.cmgt", std::ios::trunc);
-    
-    myfileWrite << battleData;
-
-    myfileWrite.close();
-}
-
 
 void BattleScreen::KillEnemy()
 {
@@ -474,26 +281,126 @@ void BattleScreen::EnemyTurn()
 {
     //save progress here
     Character& enemy = GetCurrentEnemy();
-    Character& player = *loadedPlayer;
+    Character& player = *state.loadedPlayer;
 
     switch ((rand() % 3))
     {
-    case 0:
+        case 0:
+        {
+            int dmg = enemy.attackCharacter(player);
+            player.takeDamage(dmg);
+            battleConsole->pushText("Enemy attacked with " + std::to_string(dmg) + " damage!");
+            break;
+        }
+        case 1:
+        {
+            int heal = enemy.HealSelf();
+            battleConsole->pushText("Enemy healed with " + std::to_string(heal) + " points!");
+            break;
+        }
+        case 2:
+            battleConsole->pushText("Enemy did nothing!");
+            break;
+    }
+}
+
+void BattleScreen::OnEnemyKill(sf::Sound& sound, Character& enemy)
+{
+    sound.setBuffer(*deathSoundBuffer);
+    sound.play();
+    int expGained = enemy.getExp();
+    state.loadedPlayer->setExp(state.loadedPlayer->getExp() + expGained);
+    UpdateTxt(p_expText, "Your Exp: ", state.loadedPlayer->getExp());
+
+    KillEnemy();
+    int prevIteration = state.currentIteration;
+    IterateEnemy();
+
+    Character& newEnemy = GetCurrentEnemy();
+    newEnemy.SetActive(true);
+    newEnemy.UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
+    battleConsole->pushText("You defeated enemy! Exp gained: " + std::to_string(expGained));
+
+    serializer.RegisterData(state);
+
+    if (state.currentIteration != prevIteration)
     {
-        int dmg = enemy.attackCharacter(player);
-        player.takeDamage(dmg);
-        battleConsole->pushText("Enemy attacked with " + std::to_string(dmg) + " damage!");
+        OpenUpgradeWindow();
     }
-        break;
-    case 1:
+}
+
+void BattleScreen::OnEnemyDamage(sf::Sound& sound, Character& enemy)
+{
+    sound.setBuffer(*attackSoundBuffer);
+    sound.play();
+
+    serializer.RegisterData(state);
+    EnemyTurn();
+
+    enemy.UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
+    UpdateTxt(p_hpText, "Your HP:", state.loadedPlayer->getHP());
+}
+
+void BattleScreen::OnAttackPress()
+{
+    Character& enemy = GetCurrentEnemy();
+
+    int damage = state.loadedPlayer->attackCharacter(enemy);
+
+    battleConsole->pushText("You attacked with " + std::to_string(damage) + " damage!");
+    sf::Sound& sound = s1;
+    sound.setVolume(20);
+    bool isKilled = enemy.takeDamage(damage);
+
+    if (isKilled)
     {
-        int heal = enemy.HealSelf();
-        battleConsole->pushText("Enemy healed with " + std::to_string(heal) + " points!");
-        break;
+        OnEnemyKill(sound, enemy);
     }
-    case 2:
-        battleConsole->pushText("Enemy did nothing!");
-        break;
+    else
+    {
+        OnEnemyDamage(sound, enemy);
     }
+
+    //check if player dies
+    if (state.loadedPlayer->getHP() != 0) return;
+
+    manager->changeToScene("YouWinScene");
+}
+
+void BattleScreen::OnHealPress()
+{
+    Character& enemy = GetCurrentEnemy();
+
+    int heal = state.loadedPlayer->HealSelf();
+    battleConsole->pushText("You healed with " + std::to_string(heal) + " points!");
+
+    sf::Sound& sound = s2;
+    sound.setBuffer(*healSoundBuffer);
+    sound.setVolume(30);
+    sound.play();
+
+    serializer.RegisterData(state);
+    EnemyTurn();
+
+    enemy.UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
+
+    UpdateTxt(p_hpText, "Your HP:", state.loadedPlayer->getHP());
+
+    //check if player dies
+    if (state.loadedPlayer->getHP() != 0) return;
+
+    manager->changeToScene("YouLostScene");
+}
+
+void BattleScreen::OnDoNothingPress()
+{
+    battleConsole->pushText("You did nothing..");
+
+    serializer.RegisterData(state);
+    EnemyTurn();
+
+    state.enemies.back()->UpdateText(e_name, e_hpText, e_atckText, e_dfnsText);
+
+    UpdateTxt(p_hpText, "Your HP:", state.loadedPlayer->getHP());
 }
 

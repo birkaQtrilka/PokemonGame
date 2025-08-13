@@ -17,8 +17,8 @@ private:
     std::shared_ptr<Button> charLeftBtn;
     std::shared_ptr<Button> charRightBtn;
     
-    std::shared_ptr<Button> diffLeftBtn;
-    std::shared_ptr<Button> diffRightBtn;
+    std::shared_ptr<Button> difficultyLeftBtn;
+    std::shared_ptr<Button> difficultyRightBtn;
 
     std::shared_ptr<Button> quitButton;
     std::shared_ptr<Button> backButton;
@@ -35,6 +35,8 @@ public:
 private:
     void SetUpInterface();
     void SetUpBehavior();
-
+    void AddCharacter(std::shared_ptr<Character> character, sf::Vector2f pos);
+    void SelectCharacter();
+    void DeserealizeCharacters(std::ifstream& file);
 };
 

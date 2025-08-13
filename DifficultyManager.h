@@ -1,9 +1,9 @@
 #pragma once
 #include "EnemyRandomValues.h"
 
-#define DIFFICULTIES 5
+constexpr auto DIFFICULTIES = 5;
 
-static class DifficultyManager
+class DifficultyManager
 {
 public:
 	static EnemyRandomValues GetRandomValues(int difficulty);

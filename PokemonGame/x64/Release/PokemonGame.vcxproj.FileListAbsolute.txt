@@ -1,0 +1,17 @@
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\sfml-audio-2.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\sfml-system-2.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\OpenAL32.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\vorbisenc.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\vorbis.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\ogg.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\vorbisfile.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\FLAC.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\sfml-graphics-2.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\sfml-window-2.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\freetype.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\zlib1.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\bz2.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\libpng16.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\brotlidec.dll
+C:\Saxion\Courses\C++\PokemonGame\x64\Release\brotlicommon.dll
+C:\Saxion\Courses\C++\PokemonGame\PokemonGame\x64\Release\PokemonG.5FE83D8F.Up2Date

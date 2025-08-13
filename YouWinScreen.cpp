@@ -1,6 +1,9 @@
 #include "YouWinScreen.h"
 #include "sceneHandler.hpp"
 #include <fstream>
+#include <sstream>
+#include "SceneAssets.h"
+#include "UIHelper.h"
 
 extern std::string folderPrefix;
 
@@ -19,33 +22,22 @@ void YouWinScreen::SetUpInterface()
 {
     auto windowSize = manager->window->getSize();;
     sf::Vector2f offset((float)windowSize.x / 2 - 100, 100);
+    SceneAssets* assets = SceneAssets::GetInstance();
+    const sf::Vector2f btnSize(200.5f, 50.0f);
 
-	gameOverText = std::make_shared<TextObject>("GameOverTxt", manager->mainFont, "Game Over!");
-	gameOverText->setPosition(offset);
-	gameOverText->setCharacterSize(42);
-	gameOverText->setFillColor(manager->black);
+    gameOverText = UIHelper::CreateText("GameOverTxt", assets->mainFont, "Game Over!", offset, assets->h1FontSize, assets->black);
 
     offset.y += 55;
-    highscoreText = std::make_shared<TextObject>("highScoreText", manager->mainFont, "LeaderBoard");
-    highscoreText->setPosition(offset);
-    highscoreText->setCharacterSize(26);
-    highscoreText->setFillColor(manager->black);
+    highscoreText = UIHelper::CreateText("highScoreText", assets->mainFont, "LeaderBoard", offset, assets->h2FontSize, assets->black);
 
     offset.y += 200;
-    yourScoreText = std::make_shared<TextObject>("YourScoreText", manager->mainFont, "Your Socre:");
-    yourScoreText->setPosition(offset);
-    yourScoreText->setCharacterSize(26);
-    yourScoreText->setFillColor(manager->black);
+    yourScoreText = UIHelper::CreateText("YourScoreText", assets->mainFont, "Your Score:", offset, assets->h2FontSize, assets->black);
 
     offset.y = 500;
-	quitBtn = std::make_shared<Button>("QuitBtn", manager->mainFont, "Quit",
-		sf::Vector2f(200.5f, 50.0f), manager->darkColor);
-	quitBtn->setPosition(offset);
+    quitBtn = UIHelper::CreateButton("QuitBtn", assets->mainFont, "Quit", btnSize, assets->darkColor, offset);
 
     offset.y += 55;
-	backBtn = std::make_shared<Button>("BackBtn", manager->mainFont, "Back",
-		sf::Vector2f(200.5f, 50.0f), manager->darkColor);
-	backBtn->setPosition(offset);
+    backBtn = UIHelper::CreateButton("BackBtn", assets->mainFont, "Back", btnSize, assets->darkColor, offset);
 
 	addGameObject(gameOverText);
 	addGameObject(yourScoreText);
@@ -128,7 +120,7 @@ void YouWinScreen::SaveHighScore(const ScoreData data, std::vector<ScoreData>& h
 
     for (size_t i = 0; i < scoreAmount; i++)
     {
-        myfileWrite << std::to_string( highScores[i].score) + ',' + highScores[i].name  << std::endl;
+        myfileWrite << std::to_string( highScores[i].score) << ',' << highScores[i].name  << std::endl;
     }
     myfileWrite.close();
 }
@@ -154,12 +146,12 @@ void YouWinScreen::BubbleSort(std::vector<ScoreData>& arr) {
 
 void YouWinScreen::DrawHighScore(TextObject& textMesh, const std::vector<ScoreData>& highScores)
 {
-    std::string text;
+    std::ostringstream oss;
 
     for (size_t i = 0; i < highScores.size(); i++)
     {
-        text += std::to_string(i + 1) + '.' + highScores[i].name + ": " +  std::to_string(highScores[i].score) + '\n';
+        oss << (i + 1) << '.' << highScores[i].name << ": " << highScores[i].score << '\n';
     }
 
-    textMesh.setText(text);
+    textMesh.setText(oss.str());
 }

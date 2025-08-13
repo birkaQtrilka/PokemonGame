@@ -3,6 +3,7 @@
 #include <string>
 #include "spriteObject.hpp"
 #include "textObject.hpp"
+#include <sstream>
 
 std::vector<std::string> split(const std::string& s, char delim);
 
@@ -16,11 +17,12 @@ class Character : public GameObject{
         int exp;
 
     public:
-        //Character(std::string name, std::string spriteId, 
-        //            int hp, int attack, int defense);//make this a spriteObject constructor
         Character(std::string data);
 
         ~Character();
+
+        void Serialize(std::ostringstream& stream) const;
+        void Deserialize(const std::string& line);
 
         void render(sf::RenderWindow& window) override;
         void update() override;

@@ -127,7 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BattleDataManager.cpp" />
     <ClCompile Include="BattleScreen.cpp" />
+    <ClCompile Include="BattleState.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="CharacterSelectScreen.cpp" />
@@ -137,14 +139,18 @@
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="SceneAssets.cpp" />
     <ClCompile Include="sceneHandler.cpp" />
     <ClCompile Include="spriteObject.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="textObject.cpp" />
+    <ClCompile Include="UIHelper.cpp" />
     <ClCompile Include="YouWinScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BattleDataManager.h" />
     <ClInclude Include="BattleScreen.h" />
+    <ClInclude Include="BattleState.h" />
     <ClInclude Include="button.hpp" />
     <ClInclude Include="character.hpp" />
     <ClInclude Include="CharacterSelectScreen.h" />
@@ -152,11 +158,14 @@
     <ClInclude Include="DifficultyManager.h" />
     <ClInclude Include="EnemyRandomValues.h" />
     <ClInclude Include="gameObject.hpp" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="scene.hpp" />
+    <ClInclude Include="SceneAssets.h" />
     <ClInclude Include="sceneHandler.hpp" />
     <ClInclude Include="spriteObject.hpp" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="textObject.hpp" />
+    <ClInclude Include="UIHelper.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="YouWinScreen.h" />
   </ItemGroup>

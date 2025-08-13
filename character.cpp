@@ -7,26 +7,39 @@ extern std::string folderPrefix;
 
 Character::Character(std::string data) :
     GameObject("character")
-    //TODO: position, scale
+    //TODO: position, scale, 
 { 
-    std::vector<std::string> strings = split(data, ',');//do I need to call strings.clear() at the end?
+    Deserialize(data);
+}
+
+
+Character::~Character() {
+    delete sprite;
+}
+
+void Character::Serialize(std::ostringstream& stream) const
+{
+    const char delim = ',';
+    stream << getName() << delim
+        << getSpriteFile() << delim
+        << getHP() << delim
+        << getAttack() << delim
+        << getDefense() << delim
+        << getExp() << '\n';
+}
+
+void Character::Deserialize(const std::string& line)
+{
+    std::vector<std::string> strings = split(line, ',');
     name = strings[0];
     std::size_t found = strings[1].find_last_of("/\\");
     std::string filePath = folderPrefix + strings[1].substr(found + 1);
-    sprite = new SpriteObject(filePath,filePath);
+    sprite = new SpriteObject(filePath, filePath);
 
     setHP(std::stoi(strings[2]));
     setAttack(std::stoi(strings[3]));
     setDefense(std::stoi(strings[4]));
     setExp(std::stoi(strings[5]));
-
-    strings.clear();
-}
-//find last /
-//trim until
-
-Character::~Character() {
-    delete sprite;
 }
 
 void Character::render(sf::RenderWindow& window)

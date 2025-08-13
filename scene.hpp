@@ -21,7 +21,7 @@ public:
 
     public:
         Scene(std::string identifier, SceneHandler& manager, sf::Color);
-        ~Scene();
+        virtual ~Scene(); //makes the class polymorphic to support dynamic casts
 
 
     public:
