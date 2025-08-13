@@ -2,8 +2,7 @@
 
 #include <sstream>
 #include "character.hpp"
-
-extern std::string folderPrefix;
+#include "SceneAssets.h"
 
 Character::Character(std::string data) :
     GameObject("character")
@@ -33,7 +32,7 @@ void Character::Deserialize(const std::string& line)
     std::vector<std::string> strings = split(line, ',');
     name = strings[0];
     std::size_t found = strings[1].find_last_of("/\\");
-    std::string filePath = folderPrefix + strings[1].substr(found + 1);
+    std::string filePath = SceneAssets::GetInstance()->GetPath( strings[1].substr(found + 1));
     sprite = new SpriteObject(filePath, filePath);
 
     setHP(std::stoi(strings[2]));

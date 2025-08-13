@@ -1,0 +1,10 @@
+Catty,./Assets/caty.png,10,4,2,7
+5
+1
+1
+0
+Enemy0,./Assets/amoeba.png,0,3,2,7
+Enemy1,./Assets/mushroom.png,4,2,2,13
+Enemy2,./Assets/amoeba.png,6,2,2,6
+Enemy3,./Assets/plant.png,5,2,1,9
+Enemy4,./Assets/plant.png,6,2,1,10

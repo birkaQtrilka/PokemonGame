@@ -19,5 +19,5 @@ SceneAssets* SceneAssets::GetInstance()
 
 std::string SceneAssets::GetPath(const std::string& rootPath) const
 {
-    return folderPrefix + rootPath;
+    return folderPrefix + "Assets/" + rootPath;
 }

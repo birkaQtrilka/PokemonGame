@@ -1,8 +1,8 @@
-﻿  BattleScreen.cpp
+﻿  character.cpp
   Generating code
-  113 of 1531 functions ( 7.4%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    129 functions had inline decision re-evaluated but remain unchanged
+  255 of 1530 functions (16.7%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    185 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   PokemonGame.vcxproj -> C:\Saxion\Courses\C++\PokemonGame\x64\Release\PokemonGame.exe
   'pwsh.exe' is not recognized as an internal or external command,
