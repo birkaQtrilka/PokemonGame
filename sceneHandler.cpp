@@ -3,8 +3,6 @@
 #include "DifficultyManager.h"
 #include "SceneAssets.h"
 
-extern std::string folderPrefix;
-
 SceneHandler::SceneHandler(sf::RenderWindow& window) : 
     scene(nullptr)
 {

@@ -9,8 +9,6 @@
 #include "UIHelper.h"
 #include "BattleScreen.h"
 
-extern std::string folderPrefix;
-
 
 CharacterSelectScreen::CharacterSelectScreen(std::string identifier, SceneHandler& manager) 
     : currentCharacterIndex(0), Scene(identifier, manager, sf::Color(7, 79, 87))
@@ -86,7 +84,7 @@ void CharacterSelectScreen::SetUpBehavior()
 {
     onEnter([&]() 
     {
-        std::ifstream characterSelectionFileRead(folderPrefix + "CharacterSelection.txt");
+        std::ifstream characterSelectionFileRead(SceneAssets::GetInstance()->GetPath("CharacterSelection.txt"));
 
         DeserealizeCharacters(characterSelectionFileRead);
     });

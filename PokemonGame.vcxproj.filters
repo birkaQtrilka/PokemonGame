@@ -74,27 +74,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="button.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="character.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gameObject.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sceneHandler.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="spriteObject.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="textObject.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -132,6 +111,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UIHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="textObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sceneHandler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="character.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="button.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,9 +14,7 @@
 #include "BattleScreen.h"
 #include "YouWinScreen.h"
 #include "Utils.h"
-
-extern std::string folderPrefix;
-
+#include "SceneAssets.h"
 
 std::vector<std::string> split(const std::string& s, char delim) {
     std::vector<std::string> result;
@@ -34,9 +32,10 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML with Scenes!");
 
-
+    std::string musicPath = SceneAssets::GetInstance()->GetPath("8BitExplosion.mp3");
     sf::SoundBuffer mainMusicBuffer;
-    mainMusicBuffer.loadFromFile(folderPrefix + "8BitExplosion.mp3");
+    mainMusicBuffer.loadFromFile(musicPath);
+
     sf::Sound mainMusic;
     mainMusic.setBuffer(mainMusicBuffer);
     mainMusic.setLoop(true);

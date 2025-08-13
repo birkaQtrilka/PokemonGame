@@ -20,5 +20,7 @@ public:
     const int h2FontSize = 26;
 
     static SceneAssets* GetInstance();
+    //returns correct path depending on release mode or debug mode
+    std::string GetPath(const std::string& rootPath) const;
 };
 

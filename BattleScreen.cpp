@@ -11,7 +11,6 @@
 #include <sstream>
 #include "UIHelper.h"
 
-extern std::string folderPrefix;
 
 BattleScreen::BattleScreen(std::string identifier, SceneHandler& manager) : Scene(identifier, manager,sf::Color(7,79,87))
 {
@@ -34,8 +33,9 @@ void BattleScreen::SetUpInterface()
 {
     SceneAssets* assets = SceneAssets::GetInstance();
     const sf::Vector2f btnSize(192.5f, 50.0f);
-    sf::String e_name_id = folderPrefix + "characterNameText";
     int txtSize = assets->h2FontSize;
+
+    sf::String e_name_id = assets->GetPath("characterNameText");//naming it to short next line length
     e_name = UIHelper::CreateText(e_name_id, assets->mainFont,          "nothing", sf::Vector2f(848.0f, 34.0f), txtSize, assets->black);
     e_hpText = UIHelper::CreateText("phpText", assets->mainFont,        "HP: -1", sf::Vector2f(848.0f, 238.0f), txtSize, assets->black);
     e_atckText = UIHelper::CreateText("attackText", assets->mainFont,   "ATTACK: -1", sf::Vector2f(848.0f, 290.0f), txtSize, assets->black);
@@ -56,13 +56,13 @@ void BattleScreen::SetUpInterface()
     doNthnBtn = UIHelper::CreateButton("DoNthnBtn", assets->mainFont,   "Do Nothing", btnSize, assets->darkColor, sf::Vector2f(58.0f, 610.0f));
 
     attackSoundBuffer = std::make_shared<sf::SoundBuffer>();
-    attackSoundBuffer->loadFromFile(folderPrefix + "8-bit-punch-short.wav");
+    attackSoundBuffer->loadFromFile(assets->GetPath("8-bit-punch-short.wav"));
 
     healSoundBuffer = std::make_shared<sf::SoundBuffer>();
-    healSoundBuffer->loadFromFile(folderPrefix + "powerUp.mp3");
+    healSoundBuffer->loadFromFile(assets->GetPath("powerUp.mp3"));
 
     deathSoundBuffer = std::make_shared<sf::SoundBuffer>();
-    deathSoundBuffer->loadFromFile(folderPrefix + "deathSound.mp3");
+    deathSoundBuffer->loadFromFile(assets->GetPath("deathSound.mp3"));
 
     addGameObject(e_name);
     addGameObject(e_hpText);

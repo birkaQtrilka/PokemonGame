@@ -1,13 +1,8 @@
-﻿  BattleDataManager.cpp
-C:\Saxion\Courses\C++\PokemonGame\BattleDataManager.cpp(102,100): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
-C:\Saxion\Courses\C++\PokemonGame\BattleDataManager.cpp(102,100): warning C4267:         with
-C:\Saxion\Courses\C++\PokemonGame\BattleDataManager.cpp(102,100): warning C4267:         [
-C:\Saxion\Courses\C++\PokemonGame\BattleDataManager.cpp(102,100): warning C4267:             _Ty=int
-C:\Saxion\Courses\C++\PokemonGame\BattleDataManager.cpp(102,100): warning C4267:         ]
+﻿  BattleScreen.cpp
   Generating code
-  1 of 1529 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+  113 of 1531 functions ( 7.4%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    129 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   PokemonGame.vcxproj -> C:\Saxion\Courses\C++\PokemonGame\x64\Release\PokemonGame.exe
   'pwsh.exe' is not recognized as an internal or external command,

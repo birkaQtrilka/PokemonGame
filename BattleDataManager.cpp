@@ -11,9 +11,15 @@
 
 extern std::string folderPrefix;
 
+BattleDataManager::BattleDataManager():
+    dataPath(SceneAssets::GetInstance()->GetPath("data.cmgt"))
+{
+    
+}
+
 std::tuple<bool, BattleState> BattleDataManager::LoadBattleFile()
 {
-    std::ifstream battleSaveFileRead(folderPrefix + "data.cmgt");
+    std::ifstream battleSaveFileRead(dataPath);
     std::string line;
     std::getline(battleSaveFileRead, line);
 
@@ -87,7 +93,7 @@ void BattleDataManager::RegisterData(const BattleState state)
 void BattleDataManager::SaveData() const
 {
     printf("Saving battle");
-    std::ofstream myfileWrite(folderPrefix + "data.cmgt", std::ios::trunc);
+    std::ofstream myfileWrite(dataPath, std::ios::trunc);
 
     myfileWrite << serializedData;
 
@@ -103,7 +109,7 @@ void BattleDataManager::NewBattleFile(const Character& player, const int difficu
 
     int enemyCount = 5;
 
-    std::ofstream myfileWrite(folderPrefix + "data.cmgt", std::ios::trunc);
+    std::ofstream myfileWrite(dataPath, std::ios::trunc);
 
     myfileWrite << player.getName() << ',' <<
         player.getSpriteFile() << ',' <<
